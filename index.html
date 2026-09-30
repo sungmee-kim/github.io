@@ -2132,7 +2132,7 @@ document.querySelectorAll('[data-yt]').forEach(el => { const d = THUMBS[el.datas
   const years = [...new Set(LIB.map(v => v.year))];
   chips.innerHTML = ['all'].concat(years).map(y => {
     const n = LIB.filter(v => v.year === y).length;
-    return '<button class="year-chip" type="button" data-year="' + y + '" aria-pressed="' + (y === 'all') + '">' + (y === 'all' ? 'All' : y + '<span>' + n + '</span>') + '</button>';
+    return '<button class="year-chip" type="button" data-year="' + y + '" aria-pressed="' + (y === 'all') + '">' + (y === 'all' ? 'All<span>' + LIB.length + '</span>' : y + '<span>' + n + '</span>') + '</button>';
   }).join('');
   /* "All" = featured coverflow: the newest videos, newest in the centre and large.
      Uses the newest year's videos; if there are fewer than ALL_FEATURED, the next newest fill the rest. */
@@ -2169,15 +2169,15 @@ document.querySelectorAll('[data-yt]').forEach(el => { const d = THUMBS[el.datas
   }
   function renderVideos(year) {
     cfMode = year === 'all';
-    const list = cfMode ? featured() : LIB.filter(v => v.year === +year);
+    const list = cfMode ? LIB : LIB.filter(v => v.year === +year);   // All = every video, newest first
     vTrack.classList.toggle('cf', cfMode);
     vCarousel.classList.toggle('cf-mode', cfMode);
-    vFooter.hidden = cfMode;
+    vFooter.hidden = false;
     vTrack.innerHTML = list.map(v => videoCard(v)).join('');
     sizeTrack();
     vTrack.scrollLeft = 0;
     vTotal = list.length;
-    if (cfMode) centerOn(list.length > 1 ? 1 : 0, false);   // newest in the centre
+    if (cfMode) centerOn(0, false);   // newest in the centre
     updateArrows();
   }
   function updateArrows() {
@@ -2191,6 +2191,10 @@ document.querySelectorAll('[data-yt]').forEach(el => { const d = THUMBS[el.datas
       });
       prev.disabled = vActive <= 0;
       next.disabled = vActive >= cs.length - 1;
+      const share = cs.length ? 1 / cs.length : 1;
+      bar.style.width = (share * 100) + '%';
+      bar.style.left = (cs.length > 1 ? vActive / (cs.length - 1) * (1 - share) * 100 : 0) + '%';
+      status.textContent = cs.length ? (vActive + 1) + ' / ' + cs.length : '';
       return;
     }
     cs.forEach(c => { c.classList.remove('is-active'); delete c.dataset.side; });
