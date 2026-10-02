@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kim Sungmee — B2B Marketing Leader · Korea &amp; APAC</title>
-<meta name="description" content="20+ years of B2B marketing experience connecting demand, accounts, partners and revenue across Korea and APAC.">
+<meta name="description" content="20+ years of B2B technology marketing at Dassault Systèmes, Cisco, Schneider Electric and Zebra — demand generation, ABM, partner programs and field marketing across Korea and APAC.">
 <script>
   // Motion is only enabled when the visitor hasn't asked for reduced motion.
   document.documentElement.classList.add('js');
@@ -48,6 +48,11 @@
     line-height: 1.6;
     overflow-x: hidden;
   }
+  /* Mobile stability (esp. iOS Safari): no sideways panning, so the fixed top bar can't drift */
+  html, body { overflow-x: hidden; }
+  @supports (overflow: clip) { html, body { overflow-x: clip; } }
+  /* taps respond immediately — no double-tap-zoom swallowing taps on buttons/links */
+  a, button, summary, [role="tab"], .layer-tab, .hiw-open, .tl-node, label { touch-action: manipulation; }
   img { max-width: 100%; display: block; }
   button { font: inherit; color: inherit; }
   a:focus-visible, button:focus-visible, summary:focus-visible, [tabindex]:focus-visible {
@@ -63,6 +68,7 @@
     padding: 0 40px;
     display: flex; align-items: center; justify-content: space-between;
     height: 56px;
+    -webkit-transform: translateZ(0); transform: translateZ(0);   /* own layer: stays fixed during iOS momentum scrolling */
   }
   .nav-name {
     font-family: var(--font-display); font-size: 16px;
@@ -147,15 +153,31 @@
   .rail a.active { color: var(--teal); border-left-color: var(--teal); }
 
   /* ── LAYOUT ── */
-  section { scroll-margin-top: 56px; padding: 88px 0; }
+  section { padding: 88px 0; }   /* anchor offset comes from html { scroll-padding-top } only */
   .container { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
   @media (min-width: 1200px) {
     .rail { display: block; }
+    /* Content area = the space to the right of the fixed menu (--rail).
+       The content frame (1,240px grids + 2×40px padding) is centred in that area; text keeps its 1,020px width
+       and shares the same left edge, while grid elements extend to the wider frame. */
+    :root {
+      --rail: 190px;
+      /* grid frame: 1,010px at 1,280 → 1,100px at 1,680+, fluid in between */
+      --gw: clamp(1010px, calc(1010px + (100vw - var(--sbw, 0px) - 1280px) * 0.225), 1100px);
+      --cl: calc(var(--rail) + max(0px, (100vw - var(--sbw, 0px) - var(--rail) - var(--gw) - 80px) / 2));
+      --avail: calc(100vw - var(--sbw, 0px) - var(--cl) - 80px);
+      --wide-w: min(var(--gw), var(--avail));
+    }
     .container {
-      max-width: min(1100px, calc(100vw - 210px));
-      margin-left: max(190px, calc((100vw - 1100px) / 2));
+      max-width: min(1100px, calc(100vw - var(--sbw, 0px) - var(--cl)));
+      margin-left: var(--cl);
       margin-right: auto;
     }
+    /* grid-based elements use the wide frame (text stays at its current width) */
+    #career .tl-track, #career .tl-panel, #career .tl-nav,
+    #numbers .kpi-grid, #numbers .awards,
+    #hiwStack, #caseGrid,
+    #video .vid-toolbar, #vidCarousel, #vidFooter { width: var(--wide-w); max-width: none; }
   }
   @media (max-width: 1199px) {
     .hamburger { display: flex; }
@@ -375,13 +397,35 @@
   @media (max-width: 900px) { .tl-nav { display: none; } }
   .tl-panel h3 { font-family: var(--font-display); font-weight: normal; font-size: 24px; color: var(--white); margin-bottom: 4px; }
   .tl-role { font-size: 12px; color: var(--teal); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 14px; }
-  .tl-desc { font-size: 15px; color: var(--gray-light); line-height: 1.7; margin-bottom: 14px; max-width: 60ch; }
+  .tl-desc { font-size: 15px; color: var(--gray-light); line-height: 1.7; margin-bottom: 14px; max-width: 72ch; }
   .tl-lesson { font-size: 13px; color: var(--teal); font-style: italic; padding-left: 12px; border-left: 2px solid rgba(0,194,168,0.3); margin-bottom: 16px; }
   .tl-results { display: flex; flex-wrap: wrap; gap: 8px; }
+  /* Career awards: same medal structure as the Impact "Recognition" cards */
+  .tl-results:has(.tl-award) { flex-direction: column; gap: 12px; margin-top: 4px; }
+  .tl-award { display: flex; align-items: flex-start; gap: 12px; }
+  .tl-award .ico-trophy { flex: 0 0 auto; width: 34px; height: 34px; padding: 8px; margin: 0; border-radius: 50%; color: var(--gold); background: rgba(245,166,35,0.12); border: 1px solid rgba(245,166,35,0.35); vertical-align: 0; }
+  .tl-award .award-name { display: block; margin-bottom: 3px; }
+  .tl-award .award-org { display: block; margin-top: 0; }
   .tl-aside { border-left: 1px solid var(--hair); padding-left: 28px; }
   .tl-aside-label { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal); margin-bottom: 6px; }
   .tl-aside-title { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
   .tl-aside p { font-size: 13px; color: var(--gray); line-height: 1.6; }
+  .stage-lead { color: var(--teal); font-weight: 700; letter-spacing: 0.02em; white-space: nowrap; }
+  /* Career: tag-based role signature */
+  .sig-group + .sig-group { margin-top: 16px; }
+  .tl-aside p + .sig-group { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--hair); }
+  .sig-results { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--hair); }
+  .sr-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 4px 0 12px; }
+  .sr-grid dd { margin: 0; }
+  .sr-num { font-family: var(--font-display); font-size: 24px; font-weight: 700; line-height: 1.1; color: var(--teal); }
+  .sr-lab { margin-top: 4px; font-size: 12px; line-height: 1.4; color: var(--gray-light); }
+  .sr-link { font-size: 12.5px; }
+  .sig-group .tl-aside-label { margin-bottom: 8px; }
+  .sig-tags { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+  .sig-tags li { padding: 5px 10px; border-radius: 6px; font-size: 12.5px; line-height: 1.35; color: var(--white);
+    background: rgba(0,194,168,0.08); border: 1px solid rgba(0,194,168,0.35); }
+  .sig-tags.sig-sub li { color: var(--gray-light); background: rgba(255,255,255,0.03); border-color: var(--line); }
+  .sig-tags.sig-scope li { color: var(--gray-light); background: transparent; border-color: var(--line); border-style: dashed; }
 
   /* ── IMPACT ── */
   /* Impact: crowd photo, faint and on the right side only (embedded so it always shows) */
@@ -481,7 +525,7 @@
   details[open] > summary .plus::after { transform: translate(-50%, -50%) rotate(0deg); }
 
   /* ── SUCCESS CASES ── */
-  #cases { background: var(--navy); }
+  #cases { background: var(--navy-mid); }
   .case-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
   .case-card {
     background: var(--navy-card); border: 1px solid rgba(0,194,168,0.12); border-radius: 12px;
@@ -566,7 +610,7 @@
   .case-detail { display: none; }
 
   /* ── VIDEO ── */
-  #video { background: var(--navy-mid); }
+  #video { background: var(--navy); }
   .vid-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 20px; }
   .year-chips { display: flex; gap: 8px; flex-wrap: wrap; }
   .year-chip {
@@ -715,7 +759,7 @@
   .section-cta { margin-top: 32px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; font-size: 14px; color: var(--gray); }
 
   /* ── AI & GTM ── */
-  #lab { background: var(--navy-mid); }
+  #lab { background: var(--navy); }
   .ai-honest { font-size: 13px; color: var(--text-dim); font-style: italic; margin-top: 12px; }
   .ai-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: start; }
   .ai-item .pb-name { font-size: 21px; }
@@ -771,7 +815,7 @@
   .lab-note { margin-top: 28px; font-family: var(--font-display); font-style: italic; font-size: 17px; color: var(--gray-light); line-height: 1.6; max-width: 760px; }
 
   /* ── IN THE FIELD ── */
-  #field { background: var(--navy); padding-bottom: 72px; overflow: hidden; }
+  #field { background: var(--navy-mid); padding-bottom: 72px; overflow: hidden; }
   /* Continuous photo reel: columns of varied sizes, duplicated once for a seamless loop */
   .reel { --H: 360px; position: relative; overflow: hidden; margin-top: 8px; touch-action: pan-y; user-select: none;
     -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
@@ -1038,9 +1082,13 @@
   @media (max-width: 600px) {
     .sec-head h2 { font-size: 29px; }
     .stat-val { font-size: 28px; }
-    .kpi-grid { grid-template-columns: 1fr; }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
     .kpi.primary:first-child { grid-column: auto; }
-    .kpi.primary .kpi-num { font-size: 44px; }
+    .kpi, .kpi.secondary { padding: 18px 14px 16px; }
+    .kpi.primary .kpi-num { font-size: 32px; margin-bottom: 8px; }
+    .kpi.secondary .kpi-num { font-size: 26px; }
+    .kpi-label { font-size: 12.5px; }
+    .kpi-ctx { font-size: 11.5px; }
     .loop { grid-template-columns: 1fr; }
     .loop-step + .loop-step { border-left: 0; }
     .cm-videos-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -1049,6 +1097,201 @@
     html { scroll-behavior: auto; }
     *, *::before, *::after { transition-duration: 0.01ms !important; animation: none !important; }
   }
+
+  /* ── HOW I WORK — four stacked layers (Why → How → What → Next) ── */
+  #how-i-work { background: var(--navy); }
+  #how-i-work > .container > .sec-head { margin-bottom: 30px; }
+  .stack {
+    --spine: clamp(48px, 4.4vw, 62px);
+    display: flex; min-height: 590px; border-radius: 16px; overflow: hidden;
+    border: 1px solid var(--line); box-shadow: 0 30px 60px rgba(0,0,0,0.28);
+  }
+  .layer { position: relative; display: flex; flex: 0 0 auto; min-width: 0; background: var(--lc); }
+  .layer:not(.is-open) { flex: 0 0 var(--spine, 62px); }
+  .layer:nth-child(1) { --lc: #0F1C2F; }
+  .layer:nth-child(2) { --lc: #142540; }
+  .layer:nth-child(3) { --lc: #1A2E4C; }
+  .layer:nth-child(4) { --lc: #20385A; }
+  .layer + .layer { box-shadow: -16px 0 30px rgba(0,0,0,0.3); }   /* layers sit on top of each other */
+  .layer.is-open { flex: 1 1 auto; }
+  .layer-tab {
+    display: flex; flex-direction: column; align-items: center; gap: 16px; flex: 0 0 var(--spine, 62px); width: var(--spine, 62px); height: 100%; padding: 28px 0 24px;
+    background: none; border: 0; border-right: 1px solid rgba(255,255,255,0.06); cursor: pointer; color: var(--gray-light); font: inherit;
+    transition: background 0.25s;
+  }
+  .layer:not(.is-open) .layer-tab:hover, .layer-tab:focus-visible { background: rgba(0,194,168,0.07); outline: none; }
+  .lt-num { font-family: var(--font-mono); font-size: 11px; color: var(--teal); letter-spacing: 0.1em; }
+  .lt-word, .lt-role { writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; }
+  .lt-word { font-family: var(--font-display); font-size: 30px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--white); transition: color 0.25s; }
+  .lt-role { flex: 1; font-size: 10.5px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gray); text-align: right; }
+  .layer-tab:hover .lt-word, .layer.is-open .lt-word { color: var(--teal); }
+  .lt-plus { display: none; }
+  /* the open chapter shows inside the stack (fixed height; scrolls inside if a card is expanded) */
+  #how-i-work .layer-panel { position: relative; display: none; flex: 1 1 auto; min-width: 0; padding: 32px 42px 24px; background: transparent; scrollbar-width: thin; scrollbar-color: rgba(0,194,168,0.35) transparent; }
+  #how-i-work .layer.is-open > .layer-panel { display: block; }
+  .motion #how-i-work .layer.is-open > .layer-panel { animation: layerIn 0.45s ease both; }
+  @keyframes layerIn { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: none; } }
+  #how-i-work .layer-panel > .container { max-width: none; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100%; }
+  #how-i-work .ch-label { display: none; }                        /* the spine already labels the chapter */
+  /* chapter title = the original eyebrow / Playbook label */
+  .chapter .sec-head .eyebrow, .chapter #bestpractices {
+    display: block; margin: 0 0 10px; padding: 0; border: 0; font-family: var(--font-display); font-size: 30px; line-height: 1.15;
+    font-weight: normal; letter-spacing: 0; text-transform: none; color: var(--white);
+  }
+  .chapter .sec-head .eyebrow::before, .chapter .sec-head .eyebrow::after, .chapter #bestpractices::before, .chapter #bestpractices::after { display: none; }
+  .chapter .sec-head { margin-bottom: 22px; }
+  .chapter .sec-head h2 { font-size: 20px; font-style: italic; line-height: 1.4; color: var(--teal); margin-bottom: 10px; }
+  .chapter .sec-head p, .chapter .pb-intro { max-width: 720px; }
+  .chapter .pb-intro { margin-bottom: 22px; }
+  #how .how-summary { margin-bottom: 0; }
+  #how .loop { margin: 0 0 18px; }
+  #hiwStack .how-col { padding: 20px 20px 18px; }
+  #hiwStack #how .loop { margin-bottom: 12px; }
+  #hiwStack #how .loop-step { padding: 0 14px; }
+  #hiwStack .how-col { padding: 16px 18px 14px; }
+  #hiwStack .how-num { margin-bottom: 4px; }
+  #hiwStack .how-word { margin-bottom: 6px; }
+  #hiwStack .how-title { margin-bottom: 0; }
+  #hiwStack #how:not(.details-open) .how-body { display: none; }       /* bodies open with View details */
+  #hiwStack #how.details-open .how-title { margin-bottom: 8px; }
+  #hiwStack #how .ch-more { margin-top: 14px; }
+  #hiwStack .pb-grid, #hiwStack .cap-grid, #hiwStack .ai-grid { align-items: stretch; }
+  /* ── one type scale + one card style inside the stack ──
+     title 27 serif · key line 18 italic · intro 14.5 · card title 19 serif · card text 13 · small 12 · labels 11 mono */
+  #hiwStack .pb-name, #hiwStack .ai-item .pb-name, #hiwStack .how-word { font-size: 19px !important; line-height: 1.2; }
+  #hiwStack .pb-desc, #hiwStack .how-title { font-size: 13px !important; font-weight: 400; color: var(--gray); line-height: 1.5; }
+  #hiwStack .how-body { font-size: 13px; line-height: 1.6; }
+  #hiwStack .how-num, #hiwStack .cap-num, #hiwStack .lt-num { font-size: 11px; }
+  #hiwStack .loop-step div strong { font-size: 13px; }
+  #hiwStack .loop-step div span, #hiwStack .ai-keys span, #hiwStack .ai-keys li { font-size: 12px; }
+  /* principle cards use the same card frame as every other card */
+  #hiwStack .how-cols { gap: 12px; }
+  #hiwStack .how-col, #hiwStack .how-col:first-child, #hiwStack .how-col:nth-child(2), #hiwStack .how-col:last-child {
+    border-radius: 10px; border: 1px solid transparent; border-top: 2px solid rgba(0,194,168,0.35);
+  }
+  /* compact card fronts inside the stack */
+  #hiwStack .pb-grid, #hiwStack .cap-grid, #hiwStack .ai-grid { gap: 12px; }
+  #hiwStack .pb-card summary { padding: 16px 18px 15px; gap: 10px; }
+  #hiwStack .cap-item .cap-num { display: none; }
+  #hiwStack .chapter .sec-head { margin-bottom: 16px; }
+  #hiwStack .chapter .sec-head h2 { font-size: 18px; margin-bottom: 6px; }
+  #hiwStack .chapter .sec-head p { font-size: 14.5px; line-height: 1.6; }
+  #hiwStack .chapter .sec-head p + p { margin-top: 6px; }
+  #hiwStack .chapter .pb-intro { font-size: 14.5px; line-height: 1.6; margin-bottom: 16px; }
+  #hiwStack .chapter .sec-head .eyebrow, #hiwStack .chapter #bestpractices { font-size: 27px; margin-bottom: 8px; }
+  #hiwStack .layer-nav { padding-top: 18px; }
+  @media (max-width: 900px) {
+    #hiwStack .pb-grid, #hiwStack .cap-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    #hiwStack .pb-card summary { padding: 13px 13px 12px; }
+    #hiwStack .pb-name { font-size: 16.5px; }
+    #hiwStack .pb-desc { font-size: 11.5px; }
+    #hiwStack .chapter .sec-head p, #hiwStack .chapter .pb-intro { font-size: 13.5px; }
+    #hiwStack .loop { grid-template-columns: repeat(2, 1fr); gap: 0; }
+    #hiwStack .loop-step { padding: 14px 12px; gap: 10px; }
+    #hiwStack .loop-step + .loop-step { border-left: 0; }
+    #hiwStack .loop-step:nth-child(even) { border-left: 1px solid var(--line); }
+    #hiwStack .loop-step:nth-child(n+3) { border-top: 1px solid var(--line); }
+    #hiwStack .loop-dot { width: 32px; height: 32px; font-size: 13px; flex-shrink: 0; }
+  }
+  /* guided story: previous / next chapter */
+  .ch-more-btn {
+    display: inline-flex; align-self: flex-start; align-items: center; gap: 8px; margin-top: 18px; padding: 9px 16px; border-radius: 20px; cursor: pointer;
+    background: none; border: 1px solid var(--line); color: var(--gray-light); font: inherit; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .ch-more-btn::after { content: '+'; color: var(--teal); font-size: 15px; line-height: 1; }
+  .ch-more-btn[aria-expanded="true"]::after { content: '−'; }
+  .ch-more-btn:hover { border-color: var(--teal); color: var(--teal); }
+  .ch-more { margin-top: 20px; }
+  .motion .ch-more:not([hidden]) { animation: panelIn 0.35s ease both; }
+  .layer-nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; padding-top: 22px; }
+  .ln-prev { background: none; border: 0; color: var(--gray); font: inherit; font-size: 12.5px; cursor: pointer; padding: 8px 0; }
+  .ln-prev:hover { color: var(--teal); }
+  .ln-next, .ch-cta {
+    display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; border-radius: 24px; cursor: pointer; font: inherit; font-size: 12.5px; letter-spacing: 0.03em;
+    background: none; border: 1px solid rgba(0,194,168,0.45); color: var(--teal); text-decoration: none; transition: background 0.2s;
+  }
+  .ln-next b { font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+  .ln-next:hover, .ch-cta:hover { background: rgba(0,194,168,0.12); }
+  .ch-cta { margin-top: 0; font-weight: 700; }
+  @media (max-width: 1100px) and (min-width: 901px) { .stack { min-height: 620px; } #how-i-work .layer-panel { padding: 32px 30px 24px; } .lt-word { font-size: 24px; } }
+  @media (max-width: 1300px) and (min-width: 1200px) { .tl-company { font-size: 14px; letter-spacing: -0.01em; } .tl-track { gap: 10px; } .tl-card { padding-left: 13px; padding-right: 11px; } }
+  @media (max-width: 1365px) and (min-width: 1101px) { #how-i-work .layer-panel { padding: 30px 34px 22px; } .lt-word { font-size: 26px; } }
+  @media (max-width: 900px) {
+    /* mobile: layered bars, tap to expand (one at a time) */
+    .stack { display: block; height: auto; border: 0; border-radius: 0; overflow: visible; box-shadow: none; }
+    .layer { display: block; border-radius: 12px; overflow: hidden; margin-bottom: 8px; }
+    .layer + .layer { box-shadow: 0 -10px 22px rgba(0,0,0,0.25); }
+    .layer-tab { flex-direction: row; align-items: center; gap: 12px; width: 100%; height: auto; padding: 18px 16px 18px 18px; border-right: 0; text-align: left; }
+    .lt-word, .lt-role { writing-mode: horizontal-tb; transform: none; }
+    .lt-word { font-size: 21px; }
+    .lt-role { flex: 1; font-size: 10px; text-align: left; white-space: normal; line-height: 1.4; }
+    .lt-plus { display: block; position: relative; flex: 0 0 26px; width: 26px; height: 26px; border-radius: 50%; border: 1px solid rgba(0,194,168,0.5); }
+    .lt-plus::before, .lt-plus::after { content: ''; position: absolute; left: 50%; top: 50%; width: 10px; height: 2px; margin: -1px 0 0 -5px; background: var(--teal); transition: transform 0.25s; }
+    .lt-plus::after { transform: rotate(90deg); }
+    .layer.is-open .lt-plus::after { transform: rotate(0deg); }
+    #how-i-work .layer-panel { height: auto; overflow: visible; padding: 6px 18px 22px; }
+    .motion #how-i-work .layer.is-open > .layer-panel { animation: panelIn 0.35s ease both; }
+    .chapter .sec-head .eyebrow, .chapter #bestpractices { font-size: 25px; }
+    .chapter .sec-head h2 { font-size: 17px; }
+    .layer-nav { flex-wrap: wrap; padding-top: 22px; }
+    .ln-next, .ch-cta { font-size: 12px; padding: 10px 16px; }
+  }
+  /* ── Desktop compaction (≥1200px): spacing and padding only ── */
+  @media (min-width: 1200px) {
+    main > section:not(#hero):not(#closing) { padding-top: 68px; padding-bottom: 68px; }
+    #closing { padding-top: 72px; padding-bottom: 72px; }
+    main > section > .container > .sec-head { margin-bottom: 30px; }
+    .tl-card { padding-top: 12px; padding-bottom: 12px; }
+    .tl-track { margin-bottom: 14px; }
+    .tl-panel { padding: 22px 28px; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); }
+    .kpi.primary { padding-top: 22px; padding-bottom: 20px; }
+    .kpi.secondary { padding-top: 18px; padding-bottom: 16px; }
+    .awards { margin-top: 20px; }
+    .award { padding-top: 16px; padding-bottom: 14px; }
+    #how-i-work .layer-panel { padding-top: 26px; padding-bottom: 20px; }
+    .stack { min-height: 552px; --spine: clamp(48px, calc(5vw - 8px), 72px); }
+  }
+  @media (min-width: 1200px) and (max-width: 1279px) {
+    .stack { min-height: 576px; }                       /* narrowest desktop panel: tallest chapter = 574px */
+  }
+  @media (min-width: 1301px) and (max-width: 1679px) {
+    .tl-track { gap: 10px; }                            /* Career cards: slightly tighter padding/gap only where names would wrap */
+    .tl-card { padding-left: 11px; padding-right: 11px; }
+    .case-body { padding: 24px; }
+    .case-metrics { padding-top: 16px; margin-bottom: 18px; }
+    #caseGrid { gap: 16px; }
+    .vid-toolbar { margin-bottom: 14px; }
+    .about-visual { margin-top: 40px; }
+    .contact-card { padding-top: 20px; padding-bottom: 18px; }
+  }
+
+  /* ── Button system (site-wide)
+     Primary (filled)  : the main action in a section
+     Navigate (outline + →) : go to another section, case or video
+     Expand (outline + +/−) : open more content in place
+     Font sizes are never reduced; shapes, colours and placement are unified. ── */
+  .cta-btn, .resume-btn { border-radius: 24px; }
+  .text-link, .case-open, .ln-next, .ch-cta {
+    display: inline-flex; align-items: center; gap: 8px; align-self: flex-start;
+    padding: 10px 18px; border-radius: 24px; cursor: pointer; text-decoration: none;
+    background: transparent; border: 1px solid rgba(0,194,168,0.45); color: var(--teal);
+    font-family: inherit; font-size: 12.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: none; line-height: 1.3;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .text-link:hover, .case-open:hover, .ln-next:hover, .ch-cta:hover { background: rgba(0,194,168,0.12); border-color: var(--teal); opacity: 1; }
+  .ev-btn { background: transparent; border-color: rgba(0,194,168,0.45); border-radius: 16px; transition: background 0.2s, border-color 0.2s; }
+  .ev-btn:hover { background: rgba(0,194,168,0.12); border-color: var(--teal); }
+  .ch-more-btn { border-radius: 24px; font-size: 12.5px; letter-spacing: 0.04em; }
+  /* arrow nudges toward its direction on hover */
+  .cta-arrow { display: inline-block; transition: transform 0.2s ease; }
+  a:hover > .cta-arrow, button:hover > .cta-arrow { transform: translateX(3px); }
+  a:hover > .cta-arrow.back, button:hover > .cta-arrow.back { transform: translateX(-3px); }
+  /* Career detail panel: links sit at the bottom of each column, on the same line */
+  .tl-panel > div, .tl-panel > .tl-aside { display: flex; flex-direction: column; }
+  .tl-cta { margin-top: auto; padding-top: 20px; }
+  .sig-results { flex: 1; display: flex; flex-direction: column; }
+  .sr-link { margin-top: auto; }
+  .sig-results .sr-grid { margin-bottom: 20px; }
 </style>
 </head>
 <body>
@@ -1069,16 +1312,14 @@
 <div class="drawer-overlay" id="drawerOverlay"></div>
 <nav class="mobile-drawer" id="mobileDrawer" aria-label="Sections">
   <div class="drawer-nav">
-    <div class="drawer-section" data-section="career"><a href="#career">Career</a><div class="drawer-sub">Zebra · Schneider · Cisco · Dassault · Startup</div></div>
-    <div class="drawer-section" data-section="numbers"><a href="#numbers">Impact</a><div class="drawer-sub">$5.36M direct-sourced closed-won · 9.9× in 5 years</div></div>
-    <div class="drawer-section" data-section="how"><a href="#how">Operating Model</a><div class="drawer-sub">How I operate · Marketing Playbook</div></div>
-    <div class="drawer-section" data-section="capabilities"><a href="#capabilities">Capabilities</a><div class="drawer-sub">Field · Demand gen · ABM · Partner · Digital &amp; PR</div></div>
-    <div class="drawer-section" data-section="cases"><a href="#cases">Success Cases</a><div class="drawer-sub">Events · ABM · Partners · APAC regional</div></div>
-    <div class="drawer-section" data-section="video"><a href="#video">Video</a><div class="drawer-sub">Trade shows, partner events, launches</div></div>
-    <div class="drawer-section" data-section="field"><a href="#field">In the Field</a><div class="drawer-sub">People, places and moments behind the work</div></div>
-    <div class="drawer-section" data-section="lab"><a href="#lab">AI &amp; GTM</a><div class="drawer-sub">Account intelligence · Demand gen · Productivity</div></div>
-    <div class="drawer-section" data-section="closing"><a href="#closing">About Me</a><div class="drawer-sub">Profile · How I work · Resume</div></div>
-    <div class="drawer-section" data-section="contact"><a href="#contact">Contact</a><div class="drawer-sub">LinkedIn · Email · WhatsApp · KakaoTalk</div></div>
+    <div class="drawer-section" data-section="career"><a href="#career">Career</a></div>
+    <div class="drawer-section" data-section="numbers"><a href="#numbers">Impact</a></div>
+    <div class="drawer-section" data-section="how-i-work"><a href="#how-i-work">How I Work</a></div>
+    <div class="drawer-section" data-section="cases"><a href="#cases">Success Cases</a></div>
+    <div class="drawer-section" data-section="video"><a href="#video">Video</a></div>
+    <div class="drawer-section" data-section="field"><a href="#field">In the Field</a></div>
+    <div class="drawer-section" data-section="closing"><a href="#closing">About Me</a></div>
+    <div class="drawer-section" data-section="contact"><a href="#contact">Contact</a></div>
   </div>
 </nav>
 
@@ -1087,12 +1328,10 @@
   <ol>
     <li><a href="#career" data-target="career">Career</a></li>
     <li><a href="#numbers" data-target="numbers">Impact</a></li>
-    <li><a href="#how" data-target="how">Operating Model</a></li>
-    <li><a href="#capabilities" data-target="capabilities">Capabilities</a></li>
+    <li><a href="#how-i-work" data-target="how-i-work">How I Work</a></li>
     <li><a href="#cases" data-target="cases">Success Cases</a></li>
     <li><a href="#video" data-target="video">Video</a></li>
     <li><a href="#field" data-target="field">In the Field</a></li>
-    <li><a href="#lab" data-target="lab">AI &amp; GTM</a></li>
     <li><a href="#closing" data-target="closing">About Me</a></li>
     <li><a href="#contact" data-target="contact">Contact</a></li>
   </ol>
@@ -1114,7 +1353,7 @@
           <span>to Pipeline.</span>
           <span><em>From Korea to APAC.</em></span>
         </h1>
-        <p class="hero-sub">20+ years of B2B marketing experience connecting demand, accounts, partners and revenue across Korea and APAC.</p>
+        <p class="hero-sub">20+ years of B2B technology marketing at Dassault Systèmes, Cisco, Schneider Electric and Zebra — demand generation, ABM, partner programs and field marketing across Korea and APAC.</p>
         <ul class="hero-signals" aria-label="Capability signals">
           <li>20+ Years</li><li>Korea</li><li>APAC</li><li>Revenue</li>
         </ul>
@@ -1141,9 +1380,9 @@
 <section id="career" aria-labelledby="story-title">
   <div class="container">
     <div class="sec-head">
-      <div class="eyebrow">20-Year Growth Trajectory</div>
-      <h2 id="story-title">Execution Marketer to AI-Enabled GTM Operator</h2>
-      <p>A 20-year journey from hands-on execution to scalable revenue marketing leadership — each stage adding a new layer without replacing the last. Select a stage to see the detail.</p>
+      <div class="eyebrow">20 Years in B2B Technology Marketing</div>
+      <h2 id="story-title">From Field Execution to Regional GTM Leadership</h2>
+      <p>From a Korean startup to global technology companies — each role added a new layer of responsibility, from field execution to regional pipeline ownership. Select a stage to see the detail.</p>
     </div>
 
     <div class="tl-track reveal" role="tablist" aria-label="Career stages">
@@ -1161,7 +1400,7 @@
           <span class="tl-period">2007</span>
           <span class="tl-company">Dassault Systèmes</span>
           <span class="tl-stage">Enterprise B2B</span>
-          <span class="tl-one">First structured approach to B2B enterprise marketing.</span>
+          <span class="tl-one">Field marketing for enterprise software buyers in Korea.</span>
           <span class="plus tl-plus" aria-hidden="true"></span>
         </span>
       </button>
@@ -1170,7 +1409,7 @@
           <span class="tl-period">2011</span>
           <span class="tl-company">Cisco</span>
           <span class="tl-stage">Channel &amp; Partners</span>
-          <span class="tl-one">Partner co-marketing and channel demand gen across APAC.</span>
+          <span class="tl-one">Partner-led growth for commercial and SMB segments.</span>
           <span class="plus tl-plus" aria-hidden="true"></span>
         </span>
       </button>
@@ -1178,8 +1417,8 @@
         <span class="tl-card">
           <span class="tl-period">2014</span>
           <span class="tl-company">Schneider Electric</span>
-          <span class="tl-stage">Vertical GTM</span>
-          <span class="tl-one">Led Smart Factory + Automation World 2016 across business units.</span>
+          <span class="tl-stage">Industry Business</span>
+          <span class="tl-one">Industrial automation marketing across business units.</span>
           <span class="plus tl-plus" aria-hidden="true"></span>
         </span>
       </button>
@@ -1188,7 +1427,7 @@
           <span class="tl-period">2017–2026</span>
           <span class="tl-company">Zebra Technologies</span>
           <span class="tl-stage">Korea · Philippines · APAC</span>
-          <span class="tl-one">Sole regional marketer: $5.36M direct-sourced closed-won.</span>
+          <span class="tl-one">One Marketing ownership across Korea and the Philippines, with regional collaboration.</span>
           <span class="plus tl-plus" aria-hidden="true"></span>
         </span>
       </button>
@@ -1197,7 +1436,7 @@
           <span class="tl-period">Now</span>
           <span class="tl-company">AI-enabled GTM</span>
           <span class="tl-stage">Next layer</span>
-          <span class="tl-one">Human GTM judgment plus AI-enabled account intelligence.</span>
+          <span class="tl-one">The next layer on 20 years of B2B practice.</span>
           <span class="plus tl-plus" aria-hidden="true"></span>
         </span>
       </button>
@@ -1209,67 +1448,70 @@
         <div class="tl-role">Marketing Specialist — Strategic Planning &amp; Digital Marketing · 2005</div>
         <p class="tl-desc">Content planning, promotion, customer service, and early growth execution in a lean startup environment — full ownership from day one.</p>
         <p class="tl-lesson">Ownership and commercial accountability start before there is a playbook.</p>
-        <div class="tl-results"><span class="chip gold"><svg class="ico-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0V4z"/><path d="M16 5.5h3V7a3 3 0 0 1-3 3M8 5.5H5V7a3 3 0 0 0 3 3"/><path d="M12 13v4M9 20.5h6M10 17h4v3.5h-4z"/></svg>EzWelfare Best Performance Employee · 2006</span></div>
+        <div class="tl-results"><div class="tl-award"><svg class="ico-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0V4z"/><path d="M16 5.5h3V7a3 3 0 0 1-3 3M8 5.5H5V7a3 3 0 0 0 3 3"/><path d="M12 13v4M9 20.5h6M10 17h4v3.5h-4z"/></svg><div><span class="award-name">EzWelfare Best Performance Employee</span><span class="award-org">Ezwelfare<b>2006</b></span></div></div></div>
       </div>
-      <aside class="tl-aside"><div class="tl-aside-label">Stage 01</div><div class="tl-aside-title">Execution Marketer</div><p>Startup hustle to enterprise B2B fundamentals — content, promotion, lead generation, and hands-on field execution.</p></aside>
+      <aside class="tl-aside"><div class="tl-aside-label">Stage 01</div><div class="tl-aside-title">Startup Marketing</div><p><span class="stage-lead">Foundation <span aria-hidden="true">→</span></span> end-to-end ownership — content, campaigns and the sales numbers behind them.</p><div class="sig-group"><div class="tl-aside-label">Core Expertise</div><ul class="sig-tags sig-sub"><li>Content Marketing</li><li>Web Planning</li><li>Service Launch</li><li>Promotions</li><li>Revenue Tracking</li><li>Employee Benefits Consulting</li></ul></div></aside>
     </div>
 
     <div class="tl-panel" role="tabpanel" id="panel-dassault" aria-labelledby="tab-dassault" tabindex="0" hidden>
       <div>
         <h3>Dassault Systèmes</h3>
         <div class="tl-role">Marketing Specialist — Korea Field Marketing · 2007</div>
-        <p class="tl-desc">Website development, lead generation campaign foundation, and the first structured approach to B2B enterprise marketing.</p>
-        <p class="tl-lesson">Enterprise buyers require education, proof, and trust — not just campaigns.</p>
+        <p class="tl-desc">Managed 3DS.com, email campaigns and e-seminars, and supported customer and partner events — including a 1,000+ attendee user conference, partner workshops and CXO roundtables.</p>
+        <p class="tl-lesson">Enterprise buyers need education, proof and trust before they respond to a campaign.</p>
       </div>
-      <aside class="tl-aside"><div class="tl-aside-label">Stage 01</div><div class="tl-aside-title">Execution Marketer</div><p>Startup hustle to enterprise B2B fundamentals — content, promotion, lead generation, and hands-on field execution.</p></aside>
+      <aside class="tl-aside"><div class="tl-aside-label">Stage 02</div><div class="tl-aside-title">Enterprise B2B</div><p><span class="stage-lead">Expansion <span aria-hidden="true">→</span></span> enterprise buyer engagement through seminars, conferences and executive roundtables.</p><div class="sig-group"><div class="tl-aside-label">Core Expertise</div><ul class="sig-tags sig-sub"><li>Website</li><li>Newsletters</li><li>Customer Seminars</li><li>CXO Roundtables</li><li>Partner Workshops</li></ul></div></aside>
     </div>
 
     <div class="tl-panel" role="tabpanel" id="panel-cisco" aria-labelledby="tab-cisco" tabindex="0" hidden>
       <div>
         <h3>Cisco</h3>
         <div class="tl-role">Marketing Manager, Commercial &amp; Partner &amp; SMB · 2011</div>
-        <p class="tl-desc">Cross-BU integration, partner co-marketing, MDF programs, and structured channel demand generation across the APAC ecosystem.</p>
+        <p class="tl-desc">Distributor and partner marketing plans, MDF/Co-op allocation, promotions and partner incentives tracked in SFDC/PRM — plus a demand generation framework built on MQL/SQL KPIs and product launch programs.</p>
         <p class="tl-lesson">Partner ecosystems multiply marketing reach when structured correctly.</p>
-        <div class="tl-results"><span class="chip gold"><svg class="ico-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0V4z"/><path d="M16 5.5h3V7a3 3 0 0 1-3 3M8 5.5H5V7a3 3 0 0 0 3 3"/><path d="M12 13v4M9 20.5h6M10 17h4v3.5h-4z"/></svg>Cisco APAC Marketing Elite Challenge Best Practice · 2012</span><span class="chip gold"><svg class="ico-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0V4z"/><path d="M16 5.5h3V7a3 3 0 0 1-3 3M8 5.5H5V7a3 3 0 0 0 3 3"/><path d="M12 13v4M9 20.5h6M10 17h4v3.5h-4z"/></svg>Cisco APAC Fast Track Campaign Acceleration · 2012</span></div>
+        <div class="tl-results"><div class="tl-award"><svg class="ico-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0V4z"/><path d="M16 5.5h3V7a3 3 0 0 1-3 3M8 5.5H5V7a3 3 0 0 0 3 3"/><path d="M12 13v4M9 20.5h6M10 17h4v3.5h-4z"/></svg><div><span class="award-name">Cisco APAC Marketing Elite Challenge Best Practice</span><span class="award-org">Cisco<b>2012</b></span></div></div><div class="tl-award"><svg class="ico-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0V4z"/><path d="M16 5.5h3V7a3 3 0 0 1-3 3M8 5.5H5V7a3 3 0 0 0 3 3"/><path d="M12 13v4M9 20.5h6M10 17h4v3.5h-4z"/></svg><div><span class="award-name">Cisco APAC Fast Track Campaign Acceleration</span><span class="award-org">Cisco<b>2012</b></span></div></div></div>
       </div>
-      <aside class="tl-aside"><div class="tl-aside-label">Stage 02</div><div class="tl-aside-title">Demand Gen Strategist</div><p>Channel marketing, cross-BU integration, partner programs, and the first systematic approach to demand generation.</p></aside>
+      <aside class="tl-aside"><div class="tl-aside-label">Stage 03</div><div class="tl-aside-title">Commercial, SMB &amp; Partner Marketing</div><p><span class="stage-lead">Expansion <span aria-hidden="true">→</span></span> growth through partners, and a funnel measured on MQL/SQL.</p><div class="sig-group"><div class="tl-aside-label">Core Expertise</div><ul class="sig-tags sig-sub"><li>Commercial Marketing</li><li>SMB Marketing</li><li>Partner Marketing</li><li>Joint Partner Campaigns</li><li>MDF / Co-op</li><li>Cisco Connect Annual Conference</li><li>Demand Gen</li><li>MQL / SQL</li></ul></div></aside>
     </div>
 
     <div class="tl-panel" role="tabpanel" id="panel-schneider" aria-labelledby="tab-schneider" tabindex="0" hidden>
       <div>
         <h3>Schneider Electric</h3>
         <div class="tl-role">Marketing Manager, Industry BU — Korea Field Marketing · 2014</div>
-        <p class="tl-desc">Smart factory GTM for the Industry BU, highlighted by Smart Factory + Automation World 2016 — led company-wide as the event owner, in collaboration with multiple business units.</p>
-        <p class="tl-lesson">Field events create commercial momentum only when built around pipeline, not presence.</p>
+        <p class="tl-desc">Industry BU marketing for smart factory solutions, highlighted by Smart Factory + Automation World 2016 — led company-wide as the event owner, in collaboration with multiple business units.</p>
+        <p class="tl-lesson">A trade show earns its budget when every inquiry is captured, qualified and followed up by sales.</p>
         <div class="tl-results"><span class="chip">870+ MQLs · $1M pipeline (2016)</span></div>
       </div>
-      <aside class="tl-aside"><div class="tl-aside-label">Stage 02</div><div class="tl-aside-title">Demand Gen Strategist</div><p>Channel marketing, cross-BU integration, partner programs, and the first systematic approach to demand generation.</p></aside>
+      <aside class="tl-aside"><div class="tl-aside-label">Stage 04</div><div class="tl-aside-title">Industry Business Marketing</div><p><span class="stage-lead">Expansion <span aria-hidden="true">→</span></span> business-unit marketing and large-scale industry events.</p><div class="sig-group"><div class="tl-aside-label">Core Expertise</div><ul class="sig-tags sig-sub"><li>Industry BU Marketing</li><li>Cross-BU Projects</li><li>Trade Shows</li><li>Lead Generation</li><li>Executive Events</li></ul></div></aside>
     </div>
 
     <div class="tl-panel" role="tabpanel" id="panel-zebra" aria-labelledby="tab-zebra" tabindex="0">
       <div>
         <h3>Zebra Technologies</h3>
         <div class="tl-role">Marketing Advisor — Korea &amp; Philippines Field Marketing · Singapore APAC HQ 15 months (Oct 2022 – Dec 2023) · 2017–2026</div>
-        <p class="tl-desc">Sole regional marketer for Korea and Philippines. Built the demand generation playbook, owned full pipeline accountability, scaled revenue 9.9× over five years (2021–2025), and led APAC regional strategy from Singapore HQ.</p>
+        <p class="tl-desc">Revenue marketer with One Marketing ownership for Korea and the Philippines — connecting demand generation, the partner ecosystem and sales priorities, and leading regional projects in collaboration with the APAC team in Singapore. Built the demand generation playbook and owned pipeline accountability while revenue grew 9.9× over five years (2021–2025).</p>
         <p class="tl-lesson">A solo regional role builds every capability simultaneously — strategy, execution, measurement, and commercial ownership.</p>
         <div class="tl-results">
-          <span class="chip">$5.36M direct-sourced closed-won · 9.9× revenue in 5 years · 18% MQL→Pipeline · 2021–2025</span>
-          <span class="chip gold"><svg class="ico-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0V4z"/><path d="M16 5.5h3V7a3 3 0 0 1-3 3M8 5.5H5V7a3 3 0 0 0 3 3"/><path d="M12 13v4M9 20.5h6M10 17h4v3.5h-4z"/></svg>Zebra APAC Field &amp; Channel Marketing Best Practice · 2021</span>
+          <div class="tl-award"><svg class="ico-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0V4z"/><path d="M16 5.5h3V7a3 3 0 0 1-3 3M8 5.5H5V7a3 3 0 0 0 3 3"/><path d="M12 13v4M9 20.5h6M10 17h4v3.5h-4z"/></svg><div><span class="award-name">Zebra APAC Field &amp; Channel Marketing Best Practice</span><span class="award-org">Zebra Technologies<b>2021</b></span></div></div>
         </div>
-        <p style="margin-top:16px;"><button class="text-link" data-open-case="aw">View the Automation World case (2022–2025) →</button></p>
+        <p class="tl-cta"><button class="text-link" data-open-case="aw">View the Automation World case (2022–2025) →</button></p>
       </div>
-      <aside class="tl-aside"><div class="tl-aside-label">Stage 03</div><div class="tl-aside-title">Revenue Marketing Leader</div><p>Full pipeline ownership, ABM execution, sales alignment, and APAC regional leadership delivering $5.36M in direct-sourced closed-won revenue.</p></aside>
+      <aside class="tl-aside"><div class="tl-aside-label">Stage 05</div><div class="tl-aside-title">Regional Revenue Marketing</div><p><span class="stage-lead">Expansion <span aria-hidden="true">→</span></span> pipeline ownership across two markets, and regional project collaboration.</p><div class="sig-group"><div class="tl-aside-label">Core Expertise</div><ul class="sig-tags sig-sub"><li>ABM</li><li>Demand Gen</li><li>Marketing Automation</li><li>Partner Marketing</li><li>Pipeline</li><li>C-level Engagement</li><li>Performance Marketing</li><li>Partner &amp; Customer Events</li></ul></div><div class="sig-results"><div class="tl-aside-label">Results · 2021–2025</div><dl class="sr-grid">
+<div><dt class="sr-num">$5.36M</dt><dd class="sr-lab">Direct-sourced closed-won</dd></div>
+<div><dt class="sr-num">9.9×</dt><dd class="sr-lab">Revenue growth</dd></div>
+<div><dt class="sr-num">18%</dt><dd class="sr-lab">MQL → Pipeline</dd></div>
+</dl><a class="text-link sr-link" href="#numbers">See full results in Impact →</a></div></aside>
     </div>
 
     <div class="tl-panel" role="tabpanel" id="panel-ai" aria-labelledby="tab-ai" tabindex="0" hidden>
       <div>
         <h3>AI-Enabled GTM</h3>
         <div class="tl-role">The next layer — built on the previous four</div>
-        <p class="tl-desc">Combining human GTM judgment with AI-enabled account intelligence, commercial orchestration, and scalable revenue systems.</p>
+        <p class="tl-desc">Applying AI to account research, buying-group messaging and campaign workflows — on top of 20 years of B2B marketing practice.</p>
         <p class="tl-lesson">The tools are new. The discipline is not.</p>
-        <p><a class="text-link" href="#lab">See AI-enabled marketing in practice →</a></p>
+        <p class="tl-cta"><a class="text-link" href="#lab">See AI-enabled marketing in practice →</a></p>
       </div>
-      <aside class="tl-aside"><div class="tl-aside-label">Stage 04</div><div class="tl-aside-title">AI-Enabled GTM Operator</div><p>Combining human GTM judgment with AI-enabled account intelligence, commercial orchestration, and scalable revenue systems.</p></aside>
+      <aside class="tl-aside"><div class="tl-aside-label">Next</div><div class="tl-aside-title">AI-enabled GTM</div><p><span class="stage-lead">Next layer <span aria-hidden="true">→</span></span> AI for faster account research, messaging and campaign workflows.</p><div class="sig-group"><div class="tl-aside-label">Core Expertise</div><ul class="sig-tags sig-sub"><li>AI Account Research</li><li>Buyer Messaging</li><li>Campaign Automation</li></ul></div></aside>
     </div>
   </div>
 </section>
@@ -1279,16 +1521,16 @@
   <div class="container">
     <div class="sec-head">
       <div class="eyebrow">5-Year Performance · 2021–2025 · Zebra Technologies Korea</div>
-      <h2 id="numbers-title">Proof of Measurable Revenue Contribution</h2>
-      <p>Marketing impact is credible when it connects to closed-won revenue, deal volume, conversion efficiency, and demand creation at scale.</p>
+      <h2 id="numbers-title">What Marketing Contributed to Revenue</h2>
+      <p>Results measured where Sales measures them: closed-won revenue, deals, conversion and inquiries.</p>
     </div>
 
     <div class="kpi-grid">
       <div class="kpi primary reveal"><span class="kpi-num" data-count>$5.36M</span><span class="kpi-label">Direct-sourced closed-won revenue</span><span class="kpi-ctx">Marketing direct-source pipeline converted to closed-won</span></div>
-      <div class="kpi primary reveal" style="--d:.08s"><span class="kpi-num" data-count>9.9×</span><span class="kpi-label">Five-year revenue scale</span><span class="kpi-ctx">Through marketing-led execution and strategic account penetration</span></div>
-      <div class="kpi primary reveal" style="--d:.16s"><span class="kpi-num" data-count>783</span><span class="kpi-label">Marketing-sourced closed-won deals</span><span class="kpi-ctx">Pipeline sustained beyond any single campaign</span></div>
+      <div class="kpi primary reveal" style="--d:.08s"><span class="kpi-num" data-count>9.9×</span><span class="kpi-label">Five-year revenue scale</span><span class="kpi-ctx">Overall revenue growth over the same period</span></div>
+      <div class="kpi primary reveal" style="--d:.16s"><span class="kpi-num" data-count>783</span><span class="kpi-label">Marketing-sourced closed-won deals</span><span class="kpi-ctx">Deals closed from marketing-sourced pipeline</span></div>
       <div class="kpi secondary reveal"><span class="kpi-num" data-count>18%</span><span class="kpi-label">MQL→Pipeline conversion</span><span class="kpi-ctx">Marketing-qualified leads converted into sales pipeline</span></div>
-      <div class="kpi secondary reveal" style="--d:.08s"><span class="kpi-num" data-count>38%</span><span class="kpi-label">MQL growth</span><span class="kpi-ctx">Through improved lead nurturing discipline</span></div>
+      <div class="kpi secondary reveal" style="--d:.08s"><span class="kpi-num" data-count>38%</span><span class="kpi-label">MQL growth</span><span class="kpi-ctx">Supported by Eloqua/MCAE nurturing programs</span></div>
       <div class="kpi secondary reveal" style="--d:.16s"><span class="kpi-num" data-count>6.8K</span><span class="kpi-label">Marketing-generated inquiries</span><span class="kpi-ctx">Across integrated field, digital, and channel programs</span></div>
     </div>
 
@@ -1306,44 +1548,26 @@
   </div>
 </section>
 
-<!-- ═════════ OPERATING MODEL (includes the Marketing Playbook) ═════════ -->
-<section id="how" aria-labelledby="how-title">
+<!-- ═════════ HOW I WORK — four stacked layers: Why → How → What → Next
+     Desktop: side-by-side layers (spines); one chapter open inside a fixed-height stack (WHY open by default).
+     Mobile: layered bars; tap to expand one chapter at a time (all closed by default).
+     Each panel is the original chapter section (ids #playbook, #how, #capabilities, #lab unchanged). -->
+<section id="how-i-work" aria-labelledby="how-title">
   <div class="container">
     <div class="sec-head">
-      <div class="eyebrow">Operating Model</div>
+      <div class="eyebrow">How I Work</div>
       <h2 id="how-title">Marketing should not support revenue. Marketing should create it.</h2>
-      <p>Demand generation is not a campaign calendar. It is an operating discipline that connects market signal, account engagement, sales motion, and measurable pipeline outcome.</p>
     </div>
-
-    <div class="how-cols">
-      <div class="how-col">
-        <div class="how-num">01</div>
-        <div class="how-word">Pipeline-driven.</div>
-        <div class="how-title">Plan every program with pipeline logic.</div>
-        <p class="how-body">Clear account priority, conversion expectation, and commercial visibility before a single campaign launches. Quarterly and annual planning tied to pipeline contribution — not activity volume.</p>
-      </div>
-      <div class="how-col">
-        <div class="how-num">02</div>
-        <div class="how-word">Revenue-first.</div>
-        <div class="how-title">Translate investment into qualified outcomes.</div>
-        <p class="how-body">Digital, event, ABM, social, content, and lead generation coordinated as one operating engine — not disconnected campaign activity.</p>
-      </div>
-      <div class="how-col">
-        <div class="how-num">03</div>
-        <div class="how-word">Full-funnel ownership.</div>
-        <div class="how-title">Manage the journey from signal to expansion.</div>
-        <p class="how-body">Awareness through nurturing, opportunity creation, pipeline influence, and account expansion — with follow-up discipline and conversion tracking at every stage.</p>
-      </div>
-    </div>
-    <p class="how-summary">Not a reporting philosophy — the operating discipline that connects every program to a commercial outcome.</p>
-
-    <div class="loop" aria-label="Operating loop">
-      <div class="loop-step"><span class="loop-dot" style="background:var(--teal)">P</span><div><strong>Plan</strong><span>Account priority, pipeline goals, campaign architecture</span></div></div>
-      <div class="loop-step"><span class="loop-dot" style="background:rgba(0,194,168,.65)">E</span><div><strong>Execute</strong><span>Multi-channel, sales-coordinated, always accountable</span></div></div>
-      <div class="loop-step"><span class="loop-dot" style="background:rgba(0,194,168,.45)">M</span><div><strong>Measure</strong><span>Pipeline, conversion, ROI — not impressions</span></div></div>
-      <div class="loop-step"><span class="loop-dot" style="background:rgba(0,194,168,.25);color:var(--white)">I</span><div><strong>Improve</strong><span>Data-driven optimization and learning loops</span></div></div>
-    </div>
-
+  </div>
+  <div class="container">
+    <div class="stack" id="hiwStack">
+    <div class="layer" data-ch="playbook" style="--li:0">
+      <button type="button" class="layer-tab" id="tab-playbook" aria-expanded="false" aria-controls="playbook">
+        <span class="lt-num">01</span><span class="lt-word">Why</span><span class="lt-role">The Principles I Work By</span><span class="lt-plus" aria-hidden="true"></span>
+      </button>
+  <section role="region" id="playbook" class="chapter layer-panel" aria-labelledby="bestpractices">
+  <div class="container">
+    <div class="ch-label"><span>01 · Why</span>The Principles I Work By</div>
     <div class="sub-label" id="bestpractices">The Marketing Playbook</div>
     <p class="pb-intro">Six lenses behind the results — one connected system: engaging the customer, reading the market, prioritizing the account, activating the ecosystem, executing the strategy, and building the system that lets what works repeat and expand.</p>
     <div class="pb-grid">
@@ -1351,8 +1575,8 @@
         <summary><span><span class="pb-name">Customer</span><span class="pb-desc">Customer-centric engagement</span></span><span class="plus" aria-hidden="true"></span></summary>
         <div class="pb-body">
           <div class="pb-row"><h4>Core idea</h4><p class="flow">Understand the customer deeply → create meaningful engagement → create business opportunity.</p></div>
-          <div class="pb-row"><h4>Proof</h4><p>I don't just generate reach or leads. Executive roundtables, high-touch account programs, and multi-year field engagement were built around one premise: presence isn't the objective — a relevant business conversation is.</p></div>
-          <div class="pb-row"><h4>Principle in practice</h4><p><span class="principle-t">Customers and partners are the ecosystem — not the audience.</span>Persona-mapped buying committees and a structured partner incentive program both came from treating relationships as infrastructure, not distribution channels.</p></div>
+          <div class="pb-row"><h4>Proof</h4><p>Executive roundtables, C-level forums and multi-year field programs were each planned around one goal: a qualified business conversation with the right stakeholders.</p></div>
+          <div class="pb-row"><h4>Principle in practice</h4><p><span class="principle-t">Customers and partners are the ecosystem — not the audience.</span>Persona-mapped buying committees and the APAC partner incentive program both came from this view.</p></div>
           <div class="pb-foot"><button class="text-link" data-open-case="abm">Related: ABM case →</button></div>
         </div>
       </details>
@@ -1361,7 +1585,7 @@
         <div class="pb-body">
           <div class="pb-row"><h4>Core idea</h4><p class="flow">Understand the market → identify where to play → build a GTM approach.</p></div>
           <div class="pb-row"><h4>Proof</h4><p>At Zebra, built a four-year vertical GTM platform in industrial automation (2022–2025) from a single reframed field event — one narrative, one pipeline model, and one measurement standard where none existed before. Earlier, at Schneider Electric, led Smart Factory + Automation World 2016 company-wide across business units.</p></div>
-          <div class="pb-row"><h4>Principle in practice</h4><p><span class="principle-t">Strategy earns its value in execution.</span>The Automation World platform mattered because it was operationalized every year — inquiry capture, sales handoff, and compounding pipeline contribution, not a one-time campaign.</p></div>
+          <div class="pb-row"><h4>Principle in practice</h4><p><span class="principle-t">Strategy earns its value in execution.</span>Automation World paid off because it ran the same way every year — inquiry capture, sales handoff and pipeline tracking carried from one show to the next.</p></div>
           <div class="pb-foot"><button class="text-link" data-open-case="aw">Related: Automation World case →</button></div>
         </div>
       </details>
@@ -1369,8 +1593,8 @@
         <summary><span><span class="pb-name">Account</span><span class="pb-desc">ABM &amp; account-based growth</span></span><span class="plus" aria-hidden="true"></span></summary>
         <div class="pb-body">
           <div class="pb-row"><h4>Core idea</h4><p class="flow">Understand the account → prioritize → personalize → engage → create growth opportunity.</p></div>
-          <div class="pb-row"><h4>Proof</h4><p>Prioritized strategic accounts by fit, urgency, and expansion potential, mapped buying committees down to the persona level, and translated account strategy into locally relevant messaging — moving from campaign volume to account relevance as the operating standard.</p></div>
-          <div class="pb-row"><h4>Principle in practice</h4><p><span class="principle-t">Marketing is momentum, not activity.</span>$5.36M in direct-sourced closed-won revenue came from treating marketing as a pipeline discipline connected to sales — not a calendar of campaigns.</p></div>
+          <div class="pb-row"><h4>Proof</h4><p>Prioritized strategic accounts by fit, urgency, and expansion potential, mapped buying committees down to the persona level, and translated account strategy into locally relevant messaging — in 2025, 10 target accounts produced $350K in ABM closed-won revenue.</p></div>
+          <div class="pb-row"><h4>Principle in practice</h4><p><span class="principle-t">Marketing is momentum, not activity.</span>$5.36M in direct-sourced closed-won revenue came from planning every program against pipeline, with lead-quality metrics shared with Sales and Inside Sales.</p></div>
           <div class="pb-foot"><button class="text-link" data-open-case="abm">Related: ABM case →</button></div>
         </div>
       </details>
@@ -1386,7 +1610,7 @@
       <details class="pb-card">
         <summary><span><span class="pb-name">Execution</span><span class="pb-desc">Strategic execution</span></span><span class="plus" aria-hidden="true"></span></summary>
         <div class="pb-body">
-          <div class="pb-row"><h4>Core idea</h4><p class="flow">Ambiguity → direction → action → business momentum.</p></div>
+          <div class="pb-row"><h4>Core idea</h4><p class="flow">Ambiguity → direction → action → business results.</p></div>
           <div class="pb-row"><h4>Proof</h4><p>As the sole regional marketer across two countries — and later inside APAC HQ — connected global strategy to local reality: clarifying the business question, aligning stakeholders I didn't manage, and turning direction into a cadence that could be measured and repeated.</p></div>
           <div class="pb-row"><h4>Principle in practice</h4><p><span class="principle-t">I don't wait for clarity. I create it.</span>As the sole regional marketer for Korea and the Philippines, there was no existing playbook — the demand generation model was built while it was being run.</p></div>
           <div class="pb-foot"><button class="text-link" data-open-case="apac">Related: APAC Regional case →</button></div>
@@ -1402,14 +1626,62 @@
         </div>
       </details>
     </div>
-
+    <div class="layer-nav"><span></span><button type="button" class="ln-next" data-go="how">Next: <b>How</b> — The System I Build <span aria-hidden="true">→</span></button></div>
   </div>
-</section>
-
-<!-- ═════════ MARKETING CAPABILITIES ═════════
-     "What can she actually do?" — compact cards; click to expand the execution detail. -->
-<section id="capabilities" aria-labelledby="cap-title">
+  </section>
+    </div>
+    <div class="layer" data-ch="how" style="--li:1">
+      <button type="button" class="layer-tab" id="tab-how" aria-expanded="false" aria-controls="how">
+        <span class="lt-num">02</span><span class="lt-word">How</span><span class="lt-role">The System I Build</span><span class="lt-plus" aria-hidden="true"></span>
+      </button>
+  <section role="region" id="how" class="chapter layer-panel" aria-label="Operating Model">
   <div class="container">
+    <div class="ch-label"><span>02 · How</span>The System I Build</div>
+    <div class="sec-head">
+      <div class="eyebrow">Operating Model</div>
+      <p>Demand generation run as one operating discipline: account priorities, campaigns, sales follow-up and pipeline measurement planned together.</p>
+    </div>
+    <div class="loop" aria-label="Operating loop">
+      <div class="loop-step"><span class="loop-dot" style="background:var(--teal)">P</span><div><strong>Plan</strong><span>Account priority, pipeline goals, campaign architecture</span></div></div>
+      <div class="loop-step"><span class="loop-dot" style="background:rgba(0,194,168,.65)">E</span><div><strong>Execute</strong><span>Multi-channel programs coordinated with Sales</span></div></div>
+      <div class="loop-step"><span class="loop-dot" style="background:rgba(0,194,168,.45)">M</span><div><strong>Measure</strong><span>Pipeline, conversion and ROI in Salesforce and Power BI</span></div></div>
+      <div class="loop-step"><span class="loop-dot" style="background:rgba(0,194,168,.25);color:var(--white)">I</span><div><strong>Improve</strong><span>Program changes based on conversion data</span></div></div>
+    </div>
+    <div class="how-cols">
+      <div class="how-col">
+        <div class="how-num">01</div>
+        <div class="how-word">Pipeline-driven.</div>
+        <div class="how-title">Plan every program with pipeline logic.</div>
+        <p class="how-body">Clear account priority, conversion expectation, and commercial visibility before a single campaign launches. Quarterly and annual planning tied to pipeline contribution.</p>
+      </div>
+      <div class="how-col">
+        <div class="how-num">02</div>
+        <div class="how-word">Revenue-first.</div>
+        <div class="how-title">Translate investment into qualified outcomes.</div>
+        <p class="how-body">Digital, event, ABM, social, content and lead generation planned as one program against shared pipeline targets.</p>
+      </div>
+      <div class="how-col">
+        <div class="how-num">03</div>
+        <div class="how-word">Full-funnel ownership.</div>
+        <div class="how-title">Manage the journey from signal to expansion.</div>
+        <p class="how-body">Awareness through nurturing, opportunity creation, pipeline influence, and account expansion — with follow-up discipline and conversion tracking at every stage.</p>
+      </div>
+    </div>
+    <button type="button" class="ch-more-btn" aria-expanded="false" aria-controls="more-how">View details</button>
+    <div class="ch-more" id="more-how" hidden>
+    <p class="how-summary">Every program is planned, run and reviewed against its pipeline contribution.</p>
+    </div>
+    <div class="layer-nav"><button type="button" class="ln-prev" data-go="playbook"><span aria-hidden="true">←</span> Why</button><button type="button" class="ln-next" data-go="capabilities">Next: <b>What</b> — The Expertise I Bring <span aria-hidden="true">→</span></button></div>
+  </div>
+  </section>
+    </div>
+    <div class="layer" data-ch="capabilities" style="--li:2">
+      <button type="button" class="layer-tab" id="tab-capabilities" aria-expanded="false" aria-controls="capabilities">
+        <span class="lt-num">03</span><span class="lt-word">What</span><span class="lt-role">The Expertise I Bring</span><span class="lt-plus" aria-hidden="true"></span>
+      </button>
+  <section role="region" class="chapter layer-panel" id="capabilities" aria-labelledby="cap-title">
+  <div class="container">
+    <div class="ch-label"><span>03 · What</span>The Expertise I Bring</div>
     <div class="sec-head">
       <div class="eyebrow">Marketing Capabilities</div>
       <h2 id="cap-title">What I can execute.</h2>
@@ -1440,7 +1712,7 @@
         </div>
       </details>
       <details class="pb-card cap-item reveal">
-        <summary><span><span class="cap-num">04</span><span class="pb-name">Partner &amp; Channel Marketing</span><span class="pb-desc">Partners as growth infrastructure, not distribution.</span></span><span class="plus" aria-hidden="true"></span></summary>
+        <summary><span><span class="cap-num">04</span><span class="pb-name">Partner &amp; Channel Marketing</span><span class="pb-desc">Partner programs that generate joint pipeline.</span></span><span class="plus" aria-hidden="true"></span></summary>
         <div class="pb-body">
           <div class="pb-row"><h4>What I execute</h4><ul><li>Partner marketing</li><li>MDF programs</li><li>Co-marketing</li><li>Channel programs and incentives</li><li>Partner Day and partner workshops</li></ul></div>
           <div class="pb-row"><h4>Proof point</h4><p class="cap-proof">1st APAC-wide channel incentive · 6 markets</p></div>
@@ -1463,6 +1735,78 @@
         </div>
       </details>
     </div>
+  
+    <div class="layer-nav"><button type="button" class="ln-prev" data-go="how"><span aria-hidden="true">←</span> How</button><button type="button" class="ln-next" data-go="lab">Next: <b>Next</b> — The Growth I Scale <span aria-hidden="true">→</span></button></div>
+  </div>
+  </section>
+    </div>
+    <div class="layer" data-ch="lab" style="--li:3">
+      <button type="button" class="layer-tab" id="tab-lab" aria-expanded="false" aria-controls="lab">
+        <span class="lt-num">04</span><span class="lt-word">Next</span><span class="lt-role">The Growth I Scale</span><span class="lt-plus" aria-hidden="true"></span>
+      </button>
+  <section role="region" class="chapter layer-panel" id="lab" aria-labelledby="ai-title">
+  <div class="container">
+    <div class="ch-label"><span>04 · Next</span>The Growth I Scale</div>
+    <div class="sec-head">
+      <div class="eyebrow">AI-Enabled Marketing &amp; GTM</div>
+      <h2 id="ai-title">AI doesn't replace my marketing discipline. It amplifies it.</h2>
+      <p>The same discipline as the last 20+ years — understand the buyer, build the system, own the pipeline. AI shortens research and content production, so one marketer can cover more accounts with the same rigor.</p>
+    </div>
+
+    <div class="ai-grid">
+      <details class="pb-card ai-item reveal">
+        <summary><span><span class="cap-num">01</span><span class="pb-name">Account Intelligence</span><span class="ai-keys"><span>ABM</span><span>ICP</span><span>Buying Committee</span><span>Account Research</span></span></span><span class="plus" aria-hidden="true"></span></summary>
+        <div class="pb-body">
+          <div class="pb-row"><h4>Working concept</h4><p><span class="principle-t">ABM Marketing Intelligence Hub</span>An AI-assisted account intelligence system that consolidates scattered research into executive-ready account dashboards — so marketing and sales start account planning from the same brief.</p></div>
+          <div class="pb-row"><h4>What it synthesizes</h4><ul class="plain-list"><li>ICP profile and ideal customer characteristics</li><li>Industry trends and market briefings</li><li>Account-level business insights and strategic initiatives</li><li>Buying committee and stakeholder intelligence</li><li>Competitive landscape and positioning signals</li><li>Executive-ready account dashboards on demand</li></ul></div>
+        </div>
+      </details>
+      <details class="pb-card ai-item reveal" style="--d:.08s">
+        <summary><span><span class="cap-num">02</span><span class="pb-name">Demand Generation</span><span class="ai-keys"><span>Intent</span><span>Self-Diagnosis</span><span>Lead Qualification</span><span>Content</span></span></span><span class="plus" aria-hidden="true"></span></summary>
+        <div class="pb-body">
+          <div class="pb-row"><h4>Working concept</h4><p><span class="principle-t">Intent-Based Demand Generation Engine</span>A lead generation framework that identifies customer intent and captures it through short interactive self-assessments that return a personalized result.</p></div>
+          <div class="pb-row"><h4>Key capabilities</h4><ul class="plain-list"><li>Intent-based audience segmentation</li><li>Interactive lead capture and self-diagnosis flows</li><li>Automated content personalization at scale</li><li>Progressive profiling across the buyer journey</li><li>Data-driven campaign optimization loops</li></ul></div>
+        </div>
+      </details>
+      <details class="pb-card ai-item reveal" style="--d:.16s">
+        <summary><span><span class="cap-num">03</span><span class="pb-name">Marketing Productivity</span><span class="ai-keys"><span>Research</span><span>Content</span><span>Campaign Automation</span><span>Workflow</span></span></span><span class="plus" aria-hidden="true"></span></summary>
+        <div class="pb-body">
+          <div class="pb-row"><h4>Working concept</h4><p><span class="principle-t">CHRO Strategic Planning Kit</span>Rapid strategic asset creation: transforming a complex industry challenge into an executive-ready planning framework using AI-assisted research synthesis and content automation.</p></div>
+          <div class="pb-row"><h4>What this demonstrates</h4><ul class="plain-list"><li>Industry research synthesis at speed</li><li>Market and customer insight extraction</li><li>Strategic messaging development</li><li>Content framework creation and structuring</li><li>Executive presentation acceleration</li></ul></div>
+        </div>
+      </details>
+    </div>
+
+    <button type="button" class="ch-more-btn" aria-expanded="false" aria-controls="more-lab">View details</button>
+    <div class="ch-more" id="more-lab" hidden>
+    <p class="ai-honest">These are not AI products. They are working concepts and prototypes built from real B2B marketing challenges.</p>
+    <details class="pb-card ai-loop-card reveal">
+      <summary><span><span class="cap-num">Loop</span><span class="pb-name">Intelligence loop — how AI connects to revenue</span><span class="pb-desc">Signal → Prioritize → Personalize → Activate → Learn</span></span><span class="plus" aria-hidden="true"></span></summary>
+      <div class="pb-body">
+        <div class="ai-loop"><ol>
+        <li><strong>Signal</strong><span>Capture account &amp; buyer intent</span></li>
+        <li><strong>Prioritize</strong><span>Rank accounts by fit &amp; urgency</span></li>
+        <li><strong>Personalize</strong><span>Adapt content to buying roles</span></li>
+        <li><strong>Activate</strong><span>Trigger sales &amp; marketing actions</span></li>
+        <li><strong>Learn</strong><span>Improve programs through feedback</span></li>
+      </ol></div>
+        <div class="pb-row" style="margin-top:18px"><h4>Three revenue decisions AI improves</h4></div>
+        <div class="ai-dec-grid">
+          <div><h4>Predict pipeline &amp; account readiness</h4><p>Use engagement, intent, firmographic, and historical performance signals to identify where demand is likely to convert into pipeline — before it surfaces through traditional lead capture.</p></div>
+          <div><h4>Personalize buying-group journeys</h4><p>Turn account insight into differentiated messaging for executive, operational, technical, financial, and partner stakeholders — adapting content and engagement to each role in the buying committee at scale.</p></div>
+          <div><h4>Guide sales next-best actions</h4><p>Connect marketing intelligence to sales timing, follow-up priority, and opportunity context — so each marketing signal leads to a defined sales follow-up.</p></div>
+        </div>
+      </div>
+    </details>
+
+    <p class="lab-note">The tools are new. The discipline is not.</p>
+    </div>
+  
+    <div class="layer-nav"><button type="button" class="ln-prev" data-go="capabilities"><span aria-hidden="true">←</span> What</button><a class="ch-cta" href="#cases">See these principles in action <span aria-hidden="true">→</span> Success Cases</a></div>
+  </div>
+  </section>
+    </div>
+    </div>
   </div>
 </section>
 
@@ -1474,7 +1818,7 @@
     <div class="sec-head">
       <div class="eyebrow">Selected Success Cases</div>
       <h2 id="cases-title">What I built. What it delivered.</h2>
-      <p>Four programs, each built from a specific business problem — each one moved pipeline.</p>
+      <p>Four programs, each started from a specific business problem and measured in pipeline.</p>
     </div>
 
     <div class="case-grid" id="caseGrid">
@@ -1500,12 +1844,12 @@
             <div class="case-m"><span class="case-m-val">Top 2</span><span class="case-m-lab">APAC performance ranking</span></div>
           </div>
           <div class="cm-steps">
-            <div class="cm-step"><h4>Challenge</h4><h5>Move beyond event execution</h5><p>Field events needed to become more than visibility programs. The business required measurable opportunity creation, stakeholder engagement, and sustained sales momentum — not just brand presence.</p></div>
-            <div class="cm-step"><h4>Strategy</h4><h5>Reframe as a growth platform</h5><p>Positioned Automation World as a structured revenue platform connecting executive engagement, cross-BU alignment, solution storytelling, and pipeline predictability — sustained across four consecutive years.</p></div>
-            <div class="cm-step"><h4>Execution</h4><h5>Operationalize the follow-up loop</h5><p>Ran sustained multi-year event leadership with inquiry capture, sales coordination, performance tracking, and disciplined commercial handoff — turning each event into a compounding pipeline asset.</p></div>
+            <div class="cm-step"><h4>Challenge</h4><h5>Move beyond event execution</h5><p>Field events needed to become more than visibility programs. The business needed measurable opportunity creation, stakeholder engagement and consistent sales follow-up.</p></div>
+            <div class="cm-step"><h4>Strategy</h4><h5>Reframe as a growth platform</h5><p>Positioned Automation World as a structured revenue platform connecting executive engagement, cross-BU alignment and solution storytelling — run for four consecutive years.</p></div>
+            <div class="cm-step"><h4>Execution</h4><h5>Operationalize the follow-up loop</h5><p>Ran sustained multi-year event leadership with inquiry capture, sales coordination, performance tracking, and disciplined commercial handoff — each year building on the previous year's contacts and pipeline.</p></div>
             <div class="cm-step result"><h4>Result</h4><h5>A four-year revenue platform (2022–2025)</h5><p>$17.7M in total lead value, 3,289 inquiries and 19 closed-won deals across 2022–2025, with a Top 2 APAC performance ranking.</p></div>
           </div>
-          <div class="case-quote">"Event is not execution. It is a strategic engine for revenue opportunity creation and business outcome."</div>
+          <div class="case-quote">"An event is not the outcome. It is where revenue opportunities start."</div>
         </div>
       </article>
 
@@ -1532,9 +1876,9 @@
             <div class="cm-step"><h4>Challenge</h4><h5>From campaign volume to account relevance</h5><p>Focus resources on high-value manufacturing accounts with the strongest fit, urgency, and expansion potential — moving from campaign volume to account relevance as the operating discipline.</p></div>
             <div class="cm-step"><h4>Strategy</h4><h5>Persona-level buying committee engagement</h5><p>Moved beyond single contacts by tailoring messages to operational, technical, financial, and executive stakeholders — mapping each account's buying group before any engagement launched.</p></div>
             <div class="cm-step"><h4>Execution</h4><h5>High-touch executive programs</h5><p>Used roundtables, executive sessions, and sales-aligned engagement to create trust and accelerate opportunity progress.</p></div>
-            <div class="cm-step result"><h4>Result</h4><h5>Award-recognized pipeline contribution</h5><p>100% sales alignment, 10+ personas mapped per account, and a 360° account view — converting executive relevance into commercial momentum.</p></div>
+            <div class="cm-step result"><h4>Result</h4><h5>Award-recognized pipeline contribution</h5><p>100% sales alignment, 10+ personas mapped per account, and a 360° account view — with every target account engaged jointly by Sales and Marketing.</p></div>
           </div>
-          <div class="case-quote">"ABM works when it prioritizes accounts, maps buying committees, and converts executive relevance into commercial momentum."</div>
+          <div class="case-quote">"ABM works when accounts are prioritized, buying committees are mapped, and Sales and Marketing engage as one team."</div>
         </div>
       </article>
 
@@ -1557,11 +1901,11 @@
           </div>
           <div class="cm-steps">
             <div class="cm-step"><h4>Challenge</h4><h5>Partners as a line item</h5><p>Partner relationships sat as a co-marketing line item rather than a repeatable mechanism for regional growth.</p></div>
-            <div class="cm-step"><h4>Strategy</h4><h5>Partner → ecosystem → joint GTM → market expansion</h5><p>Treat relationships as infrastructure, not distribution channels — building on earlier channel experience with partner co-marketing, MDF programs, and structured channel demand generation.</p></div>
+            <div class="cm-step"><h4>Strategy</h4><h5>Partner → ecosystem → joint GTM → market expansion</h5><p>Structure partner programs as a growth mechanism — building on earlier channel experience with partner co-marketing, MDF programs, and structured channel demand generation.</p></div>
             <div class="cm-step"><h4>Execution</h4><h5>Start small, then build the model</h5><p>Designed and launched the first APAC-wide channel incentive program. It began as a single-market idea and was built into a repeatable mechanism.</p></div>
             <div class="cm-step result"><h4>Result</h4><h5>Scaled across six markets</h5><p>A scalable partner engagement model that extended demand generation through the ecosystem across 6 markets.</p></div>
           </div>
-          <div class="case-quote">"Customers and partners are the ecosystem — not the audience."</div>
+          <div class="case-quote">"Partner programs scale when incentives, MDF and joint demand generation are designed as one model."</div>
         </div>
       </article>
 
@@ -1586,10 +1930,10 @@
           <div class="cm-steps">
             <div class="cm-step"><h4>Challenge</h4><h5>Global priorities, local reality</h5><p>Convert global and APAC priorities into local country plans, market messaging, and execution cadences that fit buyer behavior — maintaining pipeline accountability across diverse market dynamics.</p></div>
             <div class="cm-step"><h4>Strategy</h4><h5>Multi-country operating coverage</h5><p>Managed Korea and Philippines coverage simultaneously while applying regional HQ perspective from a 15-month Singapore relocation — balancing global strategy with local market ownership.</p></div>
-            <div class="cm-step"><h4>Execution</h4><h5>Cross-functional orchestration</h5><p>Working from Singapore APAC HQ, aligned regional functional leads, in-country sales and GTM teams, and channel partners around one plan — connecting a strategy set at the regional level to execution that had to work on the ground in each market.</p><p>Launched the first APAC-wide channel incentive program as part of the model (see Case 03).</p></div>
+            <div class="cm-step"><h4>Execution</h4><h5>Cross-functional coordination</h5><p>Working from Singapore APAC HQ, aligned regional functional leads, in-country sales and GTM teams, and channel partners around one plan — connecting a strategy set at the regional level to execution that had to work on the ground in each market.</p><p>Launched the first APAC-wide channel incentive program as part of the model (see Case 03).</p></div>
             <div class="cm-step result"><h4>Result</h4><h5>One operating model across markets</h5><p>Two countries covered — Korea and the Philippines — with regional strategy, local market ownership, and partner ecosystems connected into one operating model.</p></div>
           </div>
-          <div class="case-quote">"Scalable execution comes from connecting regional strategy, local market ownership, and partner ecosystems into one operating model — align, connect, orchestrate, then deliver."</div>
+          <div class="case-quote">"Regional strategy works only when it becomes a local plan that sales teams and partners can execute."</div>
         </div>
       </article>
 
@@ -1622,6 +1966,8 @@
   </div>
 </section>
 
+
+
 <!-- ═════════ IN THE FIELD ═════════
      Photos come from FIELD_PHOTOS / FIELD_IMG in the <script> at the bottom (embedded). -->
 <section id="field" aria-labelledby="field-title">
@@ -1643,63 +1989,6 @@
   </div>
 </section>
 
-<!-- ═════════ AI-ENABLED MARKETING & GTM (merged) ═════════ -->
-<section id="lab" aria-labelledby="ai-title">
-  <div class="container">
-    <div class="sec-head">
-      <div class="eyebrow">AI-Enabled Marketing &amp; GTM</div>
-      <h2 id="ai-title">AI doesn't replace my marketing discipline. It amplifies it.</h2>
-      <p>The same discipline as the last 20+ years — understand the buyer, build the system, own the pipeline. AI compresses the timeline and raises the ceiling on what one marketer can deliver.</p>
-      <p class="ai-honest">These are not AI products. They are working concepts and prototypes built from real B2B marketing challenges.</p>
-    </div>
-
-    <div class="ai-grid">
-      <details class="pb-card ai-item reveal">
-        <summary><span><span class="cap-num">01</span><span class="pb-name">Account Intelligence</span><span class="ai-keys"><span>ABM</span><span>ICP</span><span>Buying Committee</span><span>Account Research</span></span></span><span class="plus" aria-hidden="true"></span></summary>
-        <div class="pb-body">
-          <div class="pb-row"><h4>Working concept</h4><p><span class="principle-t">ABM Marketing Intelligence Hub</span>An AI-assisted account intelligence system that consolidates scattered research into executive-ready account dashboards — helping marketing and sales teams understand strategic accounts faster and act with more precision.</p></div>
-          <div class="pb-row"><h4>What it synthesizes</h4><ul class="plain-list"><li>ICP profile and ideal customer characteristics</li><li>Industry trends and market briefings</li><li>Account-level business insights and strategic initiatives</li><li>Buying committee and stakeholder intelligence</li><li>Competitive landscape and positioning signals</li><li>Executive-ready account dashboards on demand</li></ul></div>
-        </div>
-      </details>
-      <details class="pb-card ai-item reveal" style="--d:.08s">
-        <summary><span><span class="cap-num">02</span><span class="pb-name">Demand Generation</span><span class="ai-keys"><span>Intent</span><span>Self-Diagnosis</span><span>Lead Qualification</span><span>Content</span></span></span><span class="plus" aria-hidden="true"></span></summary>
-        <div class="pb-body">
-          <div class="pb-row"><h4>Working concept</h4><p><span class="principle-t">Intent-Based Demand Generation Engine</span>A lead generation framework that identifies customer intent and converts curiosity into qualified engagement — using interactive self-assessment experiences that deliver personalized insights in under 10 seconds.</p></div>
-          <div class="pb-row"><h4>Key capabilities</h4><ul class="plain-list"><li>Intent-based audience segmentation</li><li>Interactive lead capture and self-diagnosis flows</li><li>Automated content personalization at scale</li><li>Progressive profiling across the buyer journey</li><li>Data-driven campaign optimization loops</li></ul></div>
-        </div>
-      </details>
-      <details class="pb-card ai-item reveal" style="--d:.16s">
-        <summary><span><span class="cap-num">03</span><span class="pb-name">Marketing Productivity</span><span class="ai-keys"><span>Research</span><span>Content</span><span>Campaign Automation</span><span>Workflow</span></span></span><span class="plus" aria-hidden="true"></span></summary>
-        <div class="pb-body">
-          <div class="pb-row"><h4>Working concept</h4><p><span class="principle-t">CHRO Strategic Planning Kit</span>Rapid strategic asset creation: transforming a complex industry challenge into an executive-ready planning framework using AI-assisted research synthesis and content automation — from fragmented information to polished deliverable.</p></div>
-          <div class="pb-row"><h4>What this demonstrates</h4><ul class="plain-list"><li>Industry research synthesis at speed</li><li>Market and customer insight extraction</li><li>Strategic messaging development</li><li>Content framework creation and structuring</li><li>Executive presentation acceleration</li></ul></div>
-        </div>
-      </details>
-    </div>
-
-    <details class="pb-card ai-loop-card reveal">
-      <summary><span><span class="cap-num">Loop</span><span class="pb-name">Intelligence loop — how AI connects to revenue</span><span class="pb-desc">Signal → Prioritize → Personalize → Activate → Learn</span></span><span class="plus" aria-hidden="true"></span></summary>
-      <div class="pb-body">
-        <div class="ai-loop"><ol>
-        <li><strong>Signal</strong><span>Capture account &amp; buyer intent</span></li>
-        <li><strong>Prioritize</strong><span>Rank accounts by fit &amp; urgency</span></li>
-        <li><strong>Personalize</strong><span>Adapt content to buying roles</span></li>
-        <li><strong>Activate</strong><span>Trigger sales &amp; marketing actions</span></li>
-        <li><strong>Learn</strong><span>Improve programs through feedback</span></li>
-      </ol></div>
-        <div class="pb-row" style="margin-top:18px"><h4>Three revenue decisions AI improves</h4></div>
-        <div class="ai-dec-grid">
-          <div><h4>Predict pipeline &amp; account readiness</h4><p>Use engagement, intent, firmographic, and historical performance signals to identify where demand is likely to convert into pipeline — before it surfaces through traditional lead capture. Act earlier, allocate smarter.</p></div>
-          <div><h4>Personalize buying-group journeys</h4><p>Turn account insight into differentiated messaging for executive, operational, technical, financial, and partner stakeholders — adapting content and engagement to each role in the buying committee at scale.</p></div>
-          <div><h4>Guide sales next-best actions</h4><p>Connect marketing intelligence to sales timing, follow-up priority, and opportunity context — so every marketing signal translates into a sales action, not just a dashboard metric.</p></div>
-        </div>
-      </div>
-    </details>
-
-    <p class="lab-note">The tools are new. The discipline is not.</p>
-  </div>
-</section>
-
 <!-- ═════════ CLOSING — light section: profile photo + closing statement ═════════
      To replace the photo, swap the data URI in the <img> below (portrait 4:5 works best). -->
 <section id="closing" aria-label="Closing statement">
@@ -1710,7 +1999,7 @@
       </figure>
       <blockquote class="closing-quote reveal" style="--d:.1s">
         <span class="qmark" aria-hidden="true">&ldquo;</span>
-        <p class="closing-lead">B2B marketer — field marketing, demand generation and sales alignment, focused on pipeline and business outcomes.</p>
+        <p class="closing-lead">B2B marketing leader — field marketing, demand generation and sales alignment, measured in pipeline and revenue.</p>
         <p class="punch">I don't generate leads. <em>I create sales conversations.</em></p>
         <cite><b>Kim Sungmee</b>B2B Marketing Leader · Korea &amp; APAC</cite>
         <div class="closing-actions">
@@ -1725,10 +2014,10 @@
     <details class="about-bio">
       <summary><span class="plus" aria-hidden="true"></span>About Sungmee</summary>
       <div class="about-body">
-        <h3 class="about-title">Turning complexity into direction, better systems and measurable growth.</h3>
+        <h3 class="about-title">Turning business questions into marketing plans — and plans into measurable pipeline.</h3>
         <div class="about-text">
-          <p>I'm a B2B growth marketer. My twenty-year career began at a Korean startup and grew through global technology companies — Dassault Systèmes, Cisco, Schneider Electric and Zebra Technologies — across demand generation, ABM, partner, field and regional marketing. Most recently, I've led Korea and Philippines field marketing, and regional programs from Zebra's Singapore APAC headquarters.</p>
-          <p>I work where market dynamics, organizational complexity and performance data meet: making sense of what is happening, identifying what matters, and deciding where to focus next.</p>
+          <p>I'm a B2B marketing leader. My twenty-year career began at a Korean startup and grew through global technology companies — Dassault Systèmes, Cisco, Schneider Electric and Zebra Technologies — across demand generation, ABM, partner, field and regional marketing. Most recently, I've led Korea and Philippines field marketing, and regional programs from Zebra's Singapore APAC headquarters.</p>
+          <p>Most of my work starts with an open brief — a market to enter, an account list to prioritize, a partner program to rebuild. I use market data, CRM data and Sales input to decide where to focus first.</p>
           <p>My strength is connecting strategy and execution — understanding the business problem, finding where to start, bringing people together, and turning what works into a repeatable way of working. I treat every program as my own business, and I earn trust with Sales, regional teams and partners through clear communication and consistent results.</p>
           <p>What I'm most proud of is not just the results, but what I've learned along the way — building new programs, navigating challenges, and finding better ways to work.</p>
         </div>
@@ -1756,7 +2045,7 @@
 <section id="contact" aria-labelledby="contact-title">
   <div class="container">
     <div class="eyebrow">Let's Connect</div>
-    <h2 class="contact-headline" id="contact-title">Want to explore the thinking, strategy and outcomes behind my work? <em>Let's talk.</em></h2>
+    <h2 class="contact-headline" id="contact-title">To discuss B2B marketing strategy, ABM, partner programs or GTM in Korea and APAC — <em>let's connect.</em></h2>
     <div class="contact-cards">
       <a href="https://linkedin.com/in/sungmeekim" target="_blank" rel="noopener" class="contact-card">
         <span class="cc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></span>
@@ -2000,7 +2289,7 @@ document.querySelectorAll('[data-yt]').forEach(el => { const d = THUMBS[el.datas
   window.addEventListener('scroll', () => toTop.classList.toggle('show', window.pageYOffset > 900), { passive: true });
 
   /* ── Active section → rail, drawer, mobile label ── */
-  const railLinks = $$('.rail a'), drawerSecs = $$('.drawer-section');
+  const railLinks = $$('.rail a[data-target]'), drawerSecs = $$('.drawer-section');
   function setActive(id) {
     railLinks.forEach(a => { const on = a.dataset.target === id; a.classList.toggle('active', on); on ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current'); });
     drawerSecs.forEach(d => d.classList.toggle('active-section', d.dataset.section === id));
@@ -2011,6 +2300,79 @@ document.querySelectorAll('[data-yt]').forEach(el => { const d = THUMBS[el.datas
     entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id === 'hero' ? '' : e.target.id); });
   }, { rootMargin: '-45% 0px -54% 0px' });
   $$('main > section[id]').forEach(s => secIO.observe(s));
+
+  /* ── How I Work stack: desktop = one chapter open inside the stack (WHY by default); mobile = tap to expand ── */
+  const LAY = ['playbook', 'how', 'capabilities', 'lab'];
+  const layEls = $$('#hiwStack .layer'), mqStack = window.matchMedia('(max-width: 900px)');
+  let layOpen = null;
+  function layRender() {
+    layEls.forEach(l => {
+      const on = l.dataset.ch === layOpen;
+      l.classList.toggle('is-open', on);
+      $('.layer-tab', l).setAttribute('aria-expanded', String(on));
+    });
+  }
+  function layShow(id, scroll) {
+    layOpen = id; layRender();
+    const panel = id && document.getElementById(id);
+    if (!scroll || !id) return;
+    const target = mqStack.matches ? $('#tab-' + id) : $('#hiwStack');
+    requestAnimationFrame(() => {
+      const top = target.getBoundingClientRect().top;
+      if (mqStack.matches || top < 60 || top > window.innerHeight * 0.5)
+        window.scrollTo({ top: top + window.pageYOffset - 70, behavior: motionOK ? 'smooth' : 'auto' });
+    });
+  }
+  layEls.forEach(l => $('.layer-tab', l).addEventListener('click', () => {
+    const id = l.dataset.ch;
+    if (mqStack.matches) layShow(layOpen === id ? null : id, layOpen !== id);   // mobile: tap toggles
+    else if (layOpen !== id) layShow(id, false);                                 // desktop: always one open
+  }));
+  $$('#hiwStack [data-go]').forEach(b => b.addEventListener('click', () => layShow(b.dataset.go, true)));
+  $('#hiwStack').addEventListener('keydown', e => {
+    if (!e.target.classList.contains('layer-tab') || (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft' && e.key !== 'ArrowDown' && e.key !== 'ArrowUp')) return;
+    e.preventDefault();
+    const tabs = $$('.layer-tab', $('#hiwStack')), k = tabs.indexOf(e.target), fwd = e.key === 'ArrowRight' || e.key === 'ArrowDown';
+    const n = tabs[(k + (fwd ? 1 : tabs.length - 1)) % tabs.length];
+    n.focus(); if (!mqStack.matches) layShow(n.closest('.layer').dataset.ch, false);
+  });
+  const layMode = () => { if (!mqStack.matches && !layOpen) layOpen = 'playbook'; layRender(); };
+  if (mqStack.addEventListener) mqStack.addEventListener('change', layMode); else mqStack.addListener(layMode);
+  layOpen = mqStack.matches ? null : 'playbook'; layRender();
+  // Links to a chapter (#playbook, #bestpractices, #how, #capabilities, #lab) open it in the stack
+  const LAY_ALIAS = { bestpractices: 'playbook' };
+  const layOf = h => LAY.indexOf(h) > -1 ? h : LAY_ALIAS[h];
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#"]'); if (!a || a.closest('#hiwStack')) return;
+    const id = layOf(a.getAttribute('href').slice(1)); if (!id) return;
+    e.preventDefault(); layShow(id, true);
+  }, true);
+  function layFromHash() { const id = layOf(location.hash.slice(1)); if (id) layShow(id, true); }
+  layFromHash();
+  window.addEventListener('hashchange', layFromHash);
+
+  $$('#hiwStack .ch-more-btn').forEach(b => b.addEventListener('click', () => {
+    const box = document.getElementById(b.getAttribute('aria-controls')), open = box.hidden;
+    box.hidden = !open; b.setAttribute('aria-expanded', String(open)); b.textContent = open ? 'Hide details' : 'View details';
+    const ch = b.closest('.chapter'); if (ch) ch.classList.toggle('details-open', open);
+  }));
+
+  const setSbw = () => document.documentElement.style.setProperty('--sbw', (window.innerWidth - document.documentElement.clientWidth) + 'px');
+  setSbw(); window.addEventListener('resize', setSbw);
+
+  /* Button system: wrap leading ← / trailing → so the arrow can nudge on hover (text unchanged) */
+  $$('.text-link, .case-open, .cta-btn, .ln-prev, .ln-next, .ch-cta').forEach(el => {
+    const spans = $$('span[aria-hidden="true"]', el).filter(sp => /^[←→]$/.test(sp.textContent.trim()));
+    if (spans.length) { spans.forEach(sp => { sp.classList.add('cta-arrow'); if (sp.textContent.trim() === '←') sp.classList.add('back'); }); return; }
+    const first = el.firstChild, last = el.lastChild;
+    if (last && last.nodeType === 3 && /\s*→\s*$/.test(last.textContent)) {
+      last.textContent = last.textContent.replace(/\s*→\s*$/, ' ');
+      const a = document.createElement('span'); a.className = 'cta-arrow'; a.setAttribute('aria-hidden', 'true'); a.textContent = '→'; el.appendChild(a);
+    } else if (first && first.nodeType === 3 && /^\s*←/.test(first.textContent)) {
+      first.textContent = first.textContent.replace(/^\s*←\s*/, ' ');
+      const a = document.createElement('span'); a.className = 'cta-arrow back'; a.setAttribute('aria-hidden', 'true'); a.textContent = '←'; el.insertBefore(a, el.firstChild);
+    }
+  });
 
   /* ── Count-up numbers (final text always equals the original) ── */
   function countUp(el) {
