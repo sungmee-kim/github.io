@@ -1339,14 +1339,20 @@
   .lang-btn:hover { color: var(--gray-light); }
   .lang-btn[aria-pressed="true"] { background: var(--teal-glow); color: var(--teal); cursor: default; }
   .lang-btn:focus-visible { outline-offset: 1px; border-radius: 16px; }
-  @media (max-width: 419px) {   /* narrow phones: show only the language to switch to, keep the bar on one line */
-    .nav-right { gap: 10px; }
-    .lang-btn[aria-pressed="true"] { display: none; }
-    .lang-btn { height: 26px; min-width: 36px; }
+  @media (max-width: 419px) {   /* phones: compact EN | KR toggle, header stays on one line */
+    .nav-right { gap: 8px; }
+    .lang-toggle { padding: 2px; }
+    .lang-btn { height: 26px; min-width: 30px; padding: 0 6px; font-size: 11px; }
     .nav-name, .nav-current { white-space: nowrap; }
-    .nav-current { overflow: hidden; text-overflow: ellipsis; max-width: calc(100vw - 222px); }
+    .nav-current { overflow: hidden; text-overflow: ellipsis; max-width: calc(100vw - 254px); }
   }
-  @media (max-width: 359px) { .nav-current { letter-spacing: 0.08em; } }
+  @media (max-width: 374px) {   /* very small phones only: show just the language to switch to */
+    .lang-btn[aria-pressed="true"] { display: none; }
+    .lang-btn { min-width: 36px; }
+    .nav-current { max-width: calc(100vw - 222px); letter-spacing: 0.08em; }
+  }
+  @media (max-width: 359px) { .nav-current { display: none; } }
+  @media (min-width: 360px) and (max-width: 389px) { .nav-current { letter-spacing: 0.1em; } }   /* a little more room next to the logo */   /* 320px phones: logo · KR · menu (the menu button opens the same list) */
   html.lang-pending body { visibility: hidden; }   /* returning Korean visitors: no flash of English */
 
   /* ── KOREAN TYPOGRAPHY — same design, tuned for Hangul ── */
