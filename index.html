@@ -1330,6 +1330,126 @@
   html[lang="ko"] .ko-hide { display: none; }
   .stage-lead { white-space: nowrap; }
 
+
+  /* ── WHY · First 90 Days roadmap (under the playbook cards; same design language) ── */
+  .roadmap { margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--line); }
+  .rm-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px 24px; flex-wrap: wrap; margin-bottom: 14px; }
+  .rm-title { font-family: var(--font-display); font-weight: normal; font-size: 18px; color: var(--white); letter-spacing: 0; }
+  .rm-flow { font-size: 11.5px; color: var(--gray); letter-spacing: 0.02em; }
+  .rm-flow b { color: var(--teal); font-weight: 700; }
+  .rm-flow { text-wrap: balance; }
+  #roadmapModal .rm-focus li span { display: block; }   /* description always on its own line under the item */
+  .rm-steps { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr) 30px; }
+  .rm-step, .rm-end { position: relative; padding: 4px 16px 4px 20px; min-width: 0; }
+  .rm-step:first-child { padding-left: 0; }
+  /* hairline divider with an arrow sitting in a gap at the top (no box behind it) */
+  .rm-step + .rm-step::after, .rm-end::after { content: ''; position: absolute; left: 0; top: 20px; bottom: 0; width: 1px; background: var(--line); }
+  .rm-step + .rm-step::before, .rm-end::before { content: '→'; position: absolute; left: -5px; top: 1px; font-size: 11px; line-height: 1; color: var(--teal); }
+  .rm-weeks { display: block; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); }
+  .rm-name { font-family: var(--font-display); font-weight: normal; font-size: 16px; color: var(--white); margin: 3px 0 1px; }
+  .rm-lens { display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.06em; color: var(--gray); margin-bottom: 8px; }
+  .rm-items { list-style: none; display: grid; gap: 7px; }
+  .rm-items b { display: block; font-size: 12.5px; font-weight: 600; color: var(--gray-light); line-height: 1.35; }
+  .rm-items span { display: block; font-size: 12px; color: var(--gray); line-height: 1.45; }
+  .rm-end { padding: 24px 0 4px 10px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal); white-space: nowrap; }
+  .rm-end b { display: inline-block; font-weight: 700; writing-mode: vertical-rl; transform: rotate(180deg); }   /* slim vertical endpoint, like the chapter spines */
+  .rm-end span { display: none; }
+  @media (max-width: 900px) {
+    .roadmap { margin-top: 22px; padding-top: 18px; }
+    .rm-head { display: block; margin-bottom: 10px; }
+    .rm-title { font-size: 17px; line-height: 1.3; margin-bottom: 4px; }
+    .rm-flow { font-size: 11px; line-height: 1.6; }
+    /* one compact row per phase: weeks | phase name + lens, linked by ↓ down to Pipeline */
+    .rm-steps { grid-template-columns: 1fr; }
+    .rm-step, .rm-step:first-child { display: grid; grid-template-columns: 78px 1fr; column-gap: 8px; align-items: baseline; padding: 9px 0 9px 18px; }
+    .rm-step .rm-weeks { grid-row: 1 / span 2; }
+    .rm-name { font-size: 15px; margin: 0; }
+    .rm-lens { grid-column: 2; }
+    .rm-step::after, .rm-step + .rm-step::after { content: ''; position: absolute; left: 0; top: 17px; bottom: -8px; width: 1px; background: var(--line); }
+    .rm-step::before, .rm-step + .rm-step::before { content: '↓'; position: absolute; left: -5px; top: 9px; font-size: 11px; line-height: 1; color: var(--teal); }
+    .rm-step:first-child::before { content: '●'; font-size: 7px; left: -3px; top: 12px; }
+    .rm-end { padding: 6px 0 0 18px; }
+    .rm-end::before { content: '↓'; position: absolute; left: -5px; top: 7px; font-size: 11px; line-height: 1; color: var(--teal); }
+    .rm-end::after { display: none; }
+    .rm-end b { writing-mode: horizontal-tb; transform: none; }
+  }
+
+  /* button: same look and place as the other "View details" buttons (pill + "+", bottom-left) */
+  .rm-foot { margin-top: 16px; display: flex; justify-content: flex-start; }
+  .rm-open { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 24px; cursor: pointer; background: none;
+    border: 1px solid var(--line); color: var(--gray-light); font-family: var(--font-body); font-size: 12.5px; font-weight: 600; letter-spacing: 0.04em; }
+  .rm-open::after { content: '+'; color: var(--teal); font-size: 15px; line-height: 1; }
+  .rm-open:hover { border-color: var(--teal); color: var(--teal); }
+
+  /* detail pop-up: Stage-Gate — timeline + Objective → Build → Output → Gate (table on wide screens, stacked on phones) */
+  #roadmapModal { max-width: 1060px; }
+  #roadmapModal .cm-head { margin-bottom: 14px; }
+  #roadmapModal .case-title { font-size: 26px; }
+  .rm-table-wrap { overflow-x: auto; }
+  .rm-table { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; font-size: 13px; }
+  .rm-table th, .rm-table td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  .rm-table .rm-corner { width: 104px; background: none; border-bottom-color: transparent; }
+  /* timeline bar: one segment per phase, ◆ milestone at the end of each */
+  /* label above the line, ◆ on the line at the end of each phase — never touches the phase headers */
+  .rm-tl td { border: 0; padding: 20px 0 16px; position: relative; }
+  .rm-bar { position: relative; display: block; height: 2px; margin-right: 6px; background: linear-gradient(90deg, rgba(0,194,168,0.2), rgba(0,194,168,0.7)); border-radius: 2px; }
+  .rm-bar::after { content: '◆'; position: absolute; right: -6px; top: 50%; transform: translateY(-52%); font-size: 12px; line-height: 1; color: var(--teal); }
+  .rm-tl .rm-ms { position: absolute; right: 0; top: 0; transform: translateX(50%); }
+  .rm-tl .rm-ms i { display: none; }
+  .rm-tl td:last-child .rm-ms { transform: none; }
+  .rm-ms { display: inline-flex; align-items: center; gap: 5px; font-size: 10.5px; letter-spacing: 0.04em; color: var(--teal); white-space: nowrap; }
+  .rm-ms i { font-style: normal; font-size: 12px; line-height: 1; color: var(--teal); }
+  .rm-table thead tr:not(.rm-tl) th { background: var(--navy-card); border-bottom: 1px solid rgba(0,194,168,0.35); padding: 14px; }
+  .rm-table thead tr:not(.rm-tl) th:nth-child(2) { border-top-left-radius: 10px; }
+  .rm-table thead tr:not(.rm-tl) th:last-child { border-top-right-radius: 10px; }
+  .rm-table thead tr:not(.rm-tl) th + th { border-left: 1px solid var(--line); }
+  .rm-table thead tr:not(.rm-tl) .rm-corner { background: none; border-bottom-color: transparent; }
+  .rm-table tbody th { width: 104px; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--teal); font-weight: 700; padding-left: 0; }
+  html[lang="ko"] .rm-table tbody th { letter-spacing: 0.04em; font-size: 11px; }
+  .rm-table tbody td { color: var(--gray-light); }
+  .rm-table tbody td + td { border-left: 1px solid var(--line); }
+  .rm-table tbody tr:last-child th, .rm-table tbody tr:last-child td { border-bottom: 0; }
+  .rm-weeks { display: block; }
+  .rm-table .rm-phase-name, .rm-phase-head .rm-phase-name { display: block; font-family: var(--font-display); font-weight: normal; font-size: 18px; color: var(--white); margin: 2px 0 4px; }
+  .rm-key { display: block; font-size: 11px; color: var(--teal); letter-spacing: 0.02em; line-height: 1.45; }
+  /* Objective: the headline of each phase */
+  .rm-obj b { display: block; color: var(--white); font-weight: 600; font-size: 14px; margin-bottom: 2px; }
+  .rm-obj span { display: block; color: var(--gray-light); font-size: 12.5px; line-height: 1.55; }
+  /* Build: supporting actions, quieter */
+  #roadmapModal .rm-list { list-style: none; display: block !important; margin: 0; padding: 0; }
+  #roadmapModal .rm-list li { position: relative; display: block; padding: 0 0 0 11px; margin: 0 0 5px; background: none; border: 0; border-radius: 0;
+    font-size: 12px; color: var(--gray); line-height: 1.5; letter-spacing: 0; }
+  #roadmapModal .rm-list li:last-child { margin-bottom: 0; }
+  #roadmapModal .rm-list li::before { content: ''; position: absolute; left: 0; top: 0.65em; width: 4px; height: 4px; border-radius: 50%; background: rgba(0,194,168,0.6); }
+  /* Output: artifacts as outlined tags */
+  #roadmapModal .rm-out { list-style: none; display: grid !important; gap: 6px; margin: 0; padding: 0; }
+  #roadmapModal .rm-out li { display: block; margin: 0; padding: 7px 10px; border: 1px solid var(--line); border-radius: 6px; background: rgba(255,255,255,0.02); letter-spacing: 0; }
+  #roadmapModal .rm-out b { display: block; color: var(--white); font-weight: 600; font-size: 12.5px; line-height: 1.4; }
+  #roadmapModal .rm-out span { display: block; color: var(--gray); font-size: 11.5px; line-height: 1.45; }
+  /* Gate: exit criteria to the next phase */
+  .rm-table tbody tr.rm-row-gate td, .rm-table tbody tr.rm-row-gate th { background: rgba(0,194,168,0.06); }
+  .rm-table tbody tr.rm-row-gate td:last-child { border-bottom-right-radius: 10px; }
+  #roadmapModal .rm-gate { list-style: none; display: grid !important; gap: 6px; margin: 0; padding: 0; }
+  #roadmapModal .rm-gate li { position: relative; display: block; padding: 0 0 0 20px; margin: 0; background: none; border: 0; border-radius: 0; letter-spacing: 0; font-size: 12.5px; font-weight: 600; color: var(--white); line-height: 1.45; }
+  #roadmapModal .rm-gate li::before { content: '✓'; position: absolute; left: 0; top: 0; width: 14px; height: 14px; border-radius: 50%; border: 1px solid var(--teal);
+    color: var(--teal); font-size: 9px; line-height: 13px; text-align: center; }
+  .rm-scale { margin-top: 16px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; font-size: 13px; color: var(--gray-light); }
+  .rm-scale b, .rm-scale-mark { color: var(--teal); }
+  .rm-scale-name { color: var(--white); font-weight: 600; }
+  .rm-stack { display: none; }
+  .rm-phase { background: var(--navy-card); border-radius: 10px; padding: 16px 16px 14px; }
+  .rm-phase-head { padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+  .rm-phase .pb-row { margin-top: 12px; }
+  .rm-phase .rm-row-gate { margin: 14px -16px 0; padding: 10px 16px 2px; background: rgba(0,194,168,0.06); }
+  .rm-ms-m { margin-top: 10px; }
+  .rm-arrow { text-align: center; color: var(--teal); font-size: 14px; line-height: 1; padding: 8px 0; }
+  @media (max-width: 760px) {
+    .rm-table-wrap { display: none; }
+    .rm-stack { display: block; }
+    #roadmapModal .case-title { font-size: 22px; line-height: 1.25; }
+    .rm-scale { margin-top: 12px; }
+  }
+
   /* ── LANGUAGE TOGGLE (EN / KR) ── */
   .lang-toggle { display: inline-flex; align-items: center; gap: 2px; padding: 2px; border-radius: 20px; border: 1px solid var(--line); }
   .lang-btn {
@@ -1841,6 +1961,11 @@ Inquiry capture → sales handoff → pipeline tracking → next-year follow-thr
         </div>
       </details>
     </div>
+    <div class="roadmap" aria-labelledby="rmTitle">
+      <div class="rm-head"><h4 class="rm-title" id="rmTitle">First 90 Days: Market-Building Roadmap</h4><p class="rm-flow">Listen &amp; Map <span aria-hidden="true">→</span> Localize &amp; Build <span aria-hidden="true">→</span> Launch &amp; Prove <span aria-hidden="true">→</span> <b>Pipeline</b></p></div>
+      <ol class="rm-steps"><li class="rm-step"><span class="rm-weeks">Weeks 1–4</span><h5 class="rm-name">Listen &amp; Map</h5><span class="rm-lens">Market · Account</span></li><li class="rm-step"><span class="rm-weeks">Weeks 5–8</span><h5 class="rm-name">Localize &amp; Build</h5><span class="rm-lens">Ecosystem · Customer</span></li><li class="rm-step"><span class="rm-weeks">Weeks 9–12</span><h5 class="rm-name">Launch &amp; Prove</h5><span class="rm-lens">Execution · Scale</span></li><li class="rm-end" aria-hidden="true"><b>Pipeline</b></li></ol>
+      <div class="rm-foot"><button type="button" class="rm-open" id="roadmapOpen" aria-haspopup="dialog" aria-controls="roadmapModal">View details</button></div>
+    </div>
     <div class="layer-nav"><button type="button" class="ln-prev" data-go="how"><span aria-hidden="true">←</span> How</button><button type="button" class="ln-next" data-go="lab">Next: <b>Next</b> — The Growth I Scale <span aria-hidden="true">→</span></button></div>
   </div>
   </section>
@@ -2206,6 +2331,16 @@ Content and engagement personalized by buying-committee role</p></div>
       <button class="text-link" id="cmPrev">← Previous case</button>
       <button class="text-link" id="cmNext">Next case →</button>
     </div>
+  </div>
+</dialog>
+
+<dialog class="modal" id="roadmapModal" aria-labelledby="rmModalTitle">
+  <button class="modal-close" data-close aria-label="Close roadmap">×</button>
+  <div class="modal-scroll">
+    <div class="cm-head"><div class="case-tag">Why · Marketing Playbook in practice</div><h3 class="case-title" id="rmModalTitle">First 90 Days: Market-Building Roadmap</h3><p class="rm-flow">Listen &amp; Map <span aria-hidden="true">→</span> Localize &amp; Build <span aria-hidden="true">→</span> Launch &amp; Prove <span aria-hidden="true">→</span> <b>Pipeline</b></p></div>
+    <div class="rm-table-wrap"><table class="rm-table"><thead><tr class="rm-tl"><td class="rm-corner"></td><td><span class="rm-bar" aria-hidden="true"></span><span class="rm-ms"><i aria-hidden="true">◆</i> Account map agreed</span></td><td><span class="rm-bar" aria-hidden="true"></span><span class="rm-ms"><i aria-hidden="true">◆</i> Launch-ready</span></td><td><span class="rm-bar" aria-hidden="true"></span><span class="rm-ms"><i aria-hidden="true">◆</i> Scale decision</span></td></tr><tr><th class="rm-corner" scope="col"><span class="sr-only">Stage</span></th><th scope="col"><span class="rm-weeks">Weeks 1–4</span><span class="rm-phase-name">Listen &amp; Map</span><span class="rm-key">Market · Account · Ecosystem Intelligence</span></th><th scope="col"><span class="rm-weeks">Weeks 5–8</span><span class="rm-phase-name">Localize &amp; Build</span><span class="rm-key">Messaging · Partner · Sales Alignment</span></th><th scope="col"><span class="rm-weeks">Weeks 9–12</span><span class="rm-phase-name">Launch &amp; Prove</span><span class="rm-key">Engagement · Pipeline · Proof</span></th></tr></thead><tbody><tr class="rm-row-objective"><th scope="row">Objective</th><td><p class="rm-obj"><b>Define priorities</b><span>Tiered markets and accounts; key stakeholders per account</span></p></td><td><p class="rm-obj"><b>Localized messaging &amp; execution model</b><span>Market insight turned into local messaging and a partner and sales execution model</span></p></td><td><p class="rm-obj"><b>Prove early pipeline</b><span>Target account engagement converted into meetings and opportunities</span></p></td></tr><tr class="rm-row-build"><th scope="row">Build</th><td><ul class="rm-list rm-build"><li>Sales, partner and customer interviews, incl. win/loss</li><li>Installed base and CRM review: cross-sell, win-back and tech refresh opportunities</li><li>Account tiering by fit, urgency and expansion potential</li></ul></td><td><ul class="rm-list rm-build"><li>Global → local messaging by industry, persona and play</li><li>Co-marketing plan with top partners</li><li>Flagship program planning and invitations</li></ul></td><td><ul class="rm-list rm-build"><li>Flagship executive program: solution seminar, CXO roundtable</li><li>Target account plays: cross-sell, win-back, tech refresh, with event follow-up</li><li>Weekly pipeline review with Sales</li></ul></td></tr><tr class="rm-row-output"><th scope="row">Output</th><td><ul class="rm-out"><li><b>Market &amp; Account Map</b><span>Tier 1/2 accounts by play</span></li><li><b>Ecosystem Map</b><span>buying groups and partners</span></li></ul></td><td><ul class="rm-out"><li><b>Personalized Content</b><span>pain points and intent signals</span></li><li><b>Partner &amp; Channel Execution Plan</b></li><li><b>Lead Routing &amp; Handoff Rules</b><span>with SLA</span></li></ul></td><td><ul class="rm-out"><li><b>Initial Pipeline Report</b><span>meetings and opportunities as proof points</span></li><li><b>Next-Quarter Expansion Plan</b></li></ul></td></tr><tr class="rm-row-gate"><th scope="row">Gate</th><td><ul class="rm-gate"><li>Tier 1/2 account list agreed with Sales</li><li>Buying groups mapped for Tier 1 accounts</li></ul></td><td><ul class="rm-gate"><li>Messaging approved by Sales and partners</li><li>Co-marketing campaigns committed</li><li>Tier 1 attendees confirmed</li></ul></td><td><ul class="rm-gate"><li>Customer meetings with Tier 1 accounts</li><li>Sales-accepted pipeline by play</li><li>Tier 1 account engagement rate</li></ul></td></tr></tbody></table></div>
+    <div class="rm-stack"><section class="rm-phase"><div class="rm-phase-head"><span class="rm-weeks">Weeks 1–4</span><h4 class="rm-phase-name">Listen &amp; Map</h4><span class="rm-key">Market · Account · Ecosystem Intelligence</span></div><div class="pb-row rm-row-objective"><h4>Objective</h4><p class="rm-obj"><b>Define priorities</b><span>Tiered markets and accounts; key stakeholders per account</span></p></div><div class="pb-row rm-row-build"><h4>Build</h4><ul class="rm-list rm-build"><li>Sales, partner and customer interviews, incl. win/loss</li><li>Installed base and CRM review: cross-sell, win-back and tech refresh opportunities</li><li>Account tiering by fit, urgency and expansion potential</li></ul></div><div class="pb-row rm-row-output"><h4>Output</h4><ul class="rm-out"><li><b>Market &amp; Account Map</b><span>Tier 1/2 accounts by play</span></li><li><b>Ecosystem Map</b><span>buying groups and partners</span></li></ul></div><div class="pb-row rm-row-gate"><h4>Gate</h4><ul class="rm-gate"><li>Tier 1/2 account list agreed with Sales</li><li>Buying groups mapped for Tier 1 accounts</li></ul></div><p class="rm-ms rm-ms-m"><i aria-hidden="true">◆</i> Account map agreed</p></section><div class="rm-arrow" aria-hidden="true">↓</div><section class="rm-phase"><div class="rm-phase-head"><span class="rm-weeks">Weeks 5–8</span><h4 class="rm-phase-name">Localize &amp; Build</h4><span class="rm-key">Messaging · Partner · Sales Alignment</span></div><div class="pb-row rm-row-objective"><h4>Objective</h4><p class="rm-obj"><b>Localized messaging &amp; execution model</b><span>Market insight turned into local messaging and a partner and sales execution model</span></p></div><div class="pb-row rm-row-build"><h4>Build</h4><ul class="rm-list rm-build"><li>Global → local messaging by industry, persona and play</li><li>Co-marketing plan with top partners</li><li>Flagship program planning and invitations</li></ul></div><div class="pb-row rm-row-output"><h4>Output</h4><ul class="rm-out"><li><b>Personalized Content</b><span>pain points and intent signals</span></li><li><b>Partner &amp; Channel Execution Plan</b></li><li><b>Lead Routing &amp; Handoff Rules</b><span>with SLA</span></li></ul></div><div class="pb-row rm-row-gate"><h4>Gate</h4><ul class="rm-gate"><li>Messaging approved by Sales and partners</li><li>Co-marketing campaigns committed</li><li>Tier 1 attendees confirmed</li></ul></div><p class="rm-ms rm-ms-m"><i aria-hidden="true">◆</i> Launch-ready</p></section><div class="rm-arrow" aria-hidden="true">↓</div><section class="rm-phase"><div class="rm-phase-head"><span class="rm-weeks">Weeks 9–12</span><h4 class="rm-phase-name">Launch &amp; Prove</h4><span class="rm-key">Engagement · Pipeline · Proof</span></div><div class="pb-row rm-row-objective"><h4>Objective</h4><p class="rm-obj"><b>Prove early pipeline</b><span>Target account engagement converted into meetings and opportunities</span></p></div><div class="pb-row rm-row-build"><h4>Build</h4><ul class="rm-list rm-build"><li>Flagship executive program: solution seminar, CXO roundtable</li><li>Target account plays: cross-sell, win-back, tech refresh, with event follow-up</li><li>Weekly pipeline review with Sales</li></ul></div><div class="pb-row rm-row-output"><h4>Output</h4><ul class="rm-out"><li><b>Initial Pipeline Report</b><span>meetings and opportunities as proof points</span></li><li><b>Next-Quarter Expansion Plan</b></li></ul></div><div class="pb-row rm-row-gate"><h4>Gate</h4><ul class="rm-gate"><li>Customer meetings with Tier 1 accounts</li><li>Sales-accepted pipeline by play</li><li>Tier 1 account engagement rate</li></ul></div><p class="rm-ms rm-ms-m"><i aria-hidden="true">◆</i> Scale decision</p></section></div>
+    <p class="rm-scale"><span class="rm-scale-mark" aria-hidden="true">◆</span> <b>Scale</b> · <span class="rm-scale-name">Next-Quarter Expansion</span> — <span class="rm-scale-desc">proven programs scaled into a repeatable operating model.</span></p>
   </div>
 </dialog>
 
@@ -2956,6 +3091,12 @@ document.querySelectorAll('[data-yt]').forEach(el => { const d = THUMBS[el.datas
 </script>
 
 <script>
+  (function () {
+    var btn = document.getElementById('roadmapOpen'), dlg = document.getElementById('roadmapModal');
+    if (btn && dlg) btn.addEventListener('click', function () { dlg._opener = btn; dlg.showModal(); var sc = dlg.querySelector('.modal-scroll'); if (sc) sc.scrollTop = 0; });
+  })();
+</script>
+<script>
 /* ════════════════════════════════════════════════════════════════
    BILINGUAL — EN / KR
    The English in the HTML above is the source and is never edited.
@@ -3621,7 +3762,103 @@ document.querySelectorAll('[data-yt]').forEach(el => { const d = THUMBS[el.datas
   "Prioritized high-value manufacturing accounts by fit, urgency and expansion potential — making account relevance the operating discipline.": "고부가가치 제조업 핵심 어카운트 우선순위화\n적합도 · 긴급도 · 확장 가능성 기준 적용\n어카운트 적합도를 마케팅 운영 기준으로 정립", 
   "See the results": "실제 성과 보기", 
   "* Zebra Technologies Korea, 2021–2025. Business impact measured through marketing-sourced results and pipeline contribution, through to closed-won. 9.9× revenue reflects overall company revenue growth over the same period.": "※ Zebra Technologies Korea, 2021–2025년 기준입니다. 마케팅 소싱 성과와 파이프라인 기여를 중심으로 Closed-won까지의 비즈니스 임팩트를 측정했습니다. 매출 9.9배는 동일 기간 회사 전체 매출 성장 규모입니다.", 
-  "Field marketing for 3D design & PLM software in Korea.": "국내 3D 설계·PLM 소프트웨어 필드마케팅" 
+  "Field marketing for 3D design & PLM software in Korea.": "국내 3D 설계·PLM 소프트웨어 필드마케팅", 
+  "Define market and account priorities": "마켓·어카운트 우선순위 정의", 
+  "Map buying groups, Sales and partners": "구매 의사결정 그룹·영업·파트너 파악", 
+  "Decide where to focus: market and account priorities, and who matters in each account.": "어디에 집중할지 정한다: 마켓·어카운트 우선순위와 어카운트별 핵심 이해관계자", 
+  "Interviews with Sales, partners and customers": "영업·파트너·고객 인터뷰", 
+  "CRM and market data analysis": "CRM·Market Data 분석", 
+  "Account tiering by fit, urgency and expansion potential": "Fit · Urgency · Expansion Potential 기반 Account Tiering", 
+  "Market & Account Map (Tier 1/2 account list)": "Market & Account Map (Tier 1/2 어카운트 리스트)", 
+  "Ecosystem Map (buying groups and partner relationships)": "Ecosystem Map (구매 의사결정 그룹·파트너 관계도)", 
+  "Priority account list agreed with Sales": "영업과 합의한 우선순위 어카운트 리스트", 
+  "Coverage of key stakeholders": "핵심 이해관계자 커버리지", 
+  "Global messaging → local market narrative": "글로벌 메시지 → 현지 마켓 내러티브", 
+  "Partner co-marketing and execution model": "파트너 공동 마케팅·실행 체계 구축", 
+  "Turn global strategy into messaging and an execution model that work locally.": "글로벌 전략을 현지에서 통하는 메시지와 실행 체계로 바꾼다", 
+  "Localize messaging by industry and persona": "산업·페르소나별 메시지 현지화", 
+  "Build the partner co-marketing plan": "파트너 공동 마케팅 계획 수립", 
+  "Define lead handoff and sales follow-up": "영업 이관·후속 대응 프로세스 정의", 
+  "Partner & channel execution plan": "Partner & Channel 실행 계획", 
+  "Lead routing and handoff rules": "리드 처리·이관 규칙", 
+  "Messaging adopted by Sales and partners": "영업·파트너의 메시지 채택", 
+  "Joint campaigns committed": "공동 캠페인 확정 건수", 
+  "Executive engagement with key customers and partners": "핵심 고객·파트너 대상 경영진 접점", 
+  "Sales follow-up, meetings, opportunities and early proof": "영업 후속 대응·미팅·기회 창출, 초기 성과 검증", 
+  "Prove pipeline potential with the first launch.": "첫 실행으로 파이프라인 가능성을 증명한다", 
+  "Run flagship executive sessions and roundtables": "Flagship 경영진 세션·라운드테이블 운영", 
+  "Launch target-account campaigns": "타깃 어카운트 캠페인 실행", 
+  "Weekly pipeline review with Sales": "Sales 주간 Pipeline Review", 
+  "Flagship program": "Flagship 프로그램", 
+  "Early pipeline report": "초기 파이프라인 리포트", 
+  "Scale-up plan for the next quarter": "다음 분기 확장 계획", 
+  "Sales-accepted meetings": "영업 수용 미팅 수", 
+  "Pipeline created": "파이프라인 창출 규모", 
+  "Tier 1 account engagement": "Tier 1 어카운트 참여율", 
+  "Objective": "목표", 
+  "Key Actions": "핵심 실행", 
+  "Deliverables": "산출물", 
+  "Success Metrics": "성과 지표", 
+  "→ Pipeline: after 90 days, scaled into a repeatable operating model.": "→ Pipeline: 90일 이후 반복 가능한 운영 모델로 확장", 
+  "Why · Marketing Playbook in practice": "Why · 마케팅 플레이북 적용 예시", 
+  "Close roadmap": "로드맵 닫기", 
+  "Focus": "핵심 항목", 
+  "— Define market and account priorities": "— 마켓·어카운트 우선순위 정의", 
+  "— Map buying groups, Sales and partners": "— 구매 의사결정 그룹·영업·파트너 파악", 
+  "— Global messaging → local market narrative": "— 글로벌 메시지 → 현지 마켓 내러티브", 
+  "— Partner co-marketing and execution model": "— 파트너 공동 마케팅·실행 체계 구축", 
+  "— Executive engagement with key customers and partners": "— 핵심 고객·파트너 대상 경영진 접점", 
+  "— Sales follow-up, meetings, opportunities and early proof": "— 영업 후속 대응·미팅·기회 창출, 초기 성과 검증", 
+  "Define priorities": "우선순위 정의", 
+  "Tiered markets and accounts; key stakeholders per account": "Tier별 마켓·어카운트, 어카운트별 핵심 이해관계자", 
+  "Sales, partner and customer interviews and surveys": "Sales·Partner·Customer 인터뷰 및 서베이", 
+  "Sales-aligned priority account list": "Sales Alignment 기반 Priority Account List", 
+  "Key stakeholder coverage": "핵심 이해관계자 Coverage", 
+  "buying group and partner landscape": "Buying Group·Partner 관계도", 
+  "Localized messaging & execution model": "Localized Messaging·실행 체계", 
+  "Market insight turned into local messaging and a partner and sales execution model": "Market Insight를 현지 메시지와 Partner·Sales 실행 체계로 전환", 
+  "Messaging by industry and persona": "Industry·Persona별 Messaging 개발", 
+  "Partner co-marketing plan": "Partner Co-marketing Plan 수립", 
+  "Sales handoff and follow-up process": "Sales Handoff·Follow-up Process 정의", 
+  "Messaging adoption by Sales and partners": "Sales·Partner Messaging Adoption", 
+  "Co-marketing campaigns committed": "Co-marketing Campaign 확정", 
+  "pain-point and intent-signal scripts and nurture messaging": "Pain Point·Intent Signal 기반 Script·Nurturing Message", 
+  "Lead Routing & Handoff Rules": "Lead Routing·Handoff Rule", 
+  "Prove early pipeline": "초기 Pipeline 검증", 
+  "Target account engagement converted into meetings and opportunities": "Target Account Engagement → Meeting·Opportunity 전환", 
+  "Flagship executive program: solution seminars, CXO roundtables": "Flagship Executive Program: Solution Seminar·CXO Roundtable", 
+  "Target account campaigns": "Target Account Campaign 실행", 
+  "Weekly / bi-weekly Sales cadence": "Sales Weekly / Bi-weekly Cadence 운영", 
+  "Customer meetings": "Customer Meeting 수", 
+  "Pipeline generated": "Pipeline Generated", 
+  "Tier 1 account engagement rate": "Tier 1 Account Engagement Rate", 
+  "meeting and opportunity proof points": "Meeting·Opportunity 기반 Proof Points", 
+  "proven programs scaled into a repeatable operating model.": "검증된 프로그램을 반복 가능한 Operating Model로 확장", 
+  "Stage": "단계", 
+  "Account map agreed": "Account Map 합의", 
+  "Sales, partner and customer interviews, incl. win/loss": "Sales·Partner·Customer 인터뷰 (Win/Loss 포함)", 
+  "Tier 1/2 account list agreed with Sales": "Sales 합의 Tier 1/2 Account List", 
+  "Buying groups mapped for Tier 1 accounts": "Tier 1 Account별 Buying Group 매핑", 
+  "buying groups and partners": "Buying Group·Partner 관계도", 
+  "Launch-ready": "Launch 준비 완료", 
+  "Co-marketing plan with top partners": "Top Partner 대상 Co-marketing Plan 수립", 
+  "Flagship program planning and invitations": "Flagship Program 기획·초청", 
+  "Messaging approved by Sales and partners": "Sales·Partner Messaging 승인", 
+  "Tier 1 attendees confirmed": "Flagship 참석 Tier 1 Account 확정", 
+  "pain points and intent signals": "Pain Point·Intent Signal", 
+  "with SLA": "SLA 포함", 
+  "Flagship executive program: solution seminar, CXO roundtable": "Flagship Executive Program 운영: Solution Seminar·CXO Roundtable", 
+  "Customer meetings with Tier 1 accounts": "Tier 1 Account Customer Meeting", 
+  "meetings and opportunities as proof points": "Meeting·Opportunity 기반 Proof Points", 
+  "Build": "핵심 실행", 
+  "Output": "산출물", 
+  "Gate": "검증 기준", 
+  "Installed base and CRM review: cross-sell, win-back and tech refresh opportunities": "Installed Base·CRM 분석: Cross-sell·Win-back·Tech Refresh 기회 식별", 
+  "Tier 1/2 accounts by play": "Tier 1/2 Account List · Play별 분류", 
+  "Global → local messaging by industry, persona and play": "Global → Local Messaging (Industry·Persona·Play별)", 
+  "Target account plays: cross-sell, win-back, tech refresh, with event follow-up": "Target Account Play 실행: Cross-sell·Win-back·Tech Refresh (Event Follow-up 포함)", 
+  "Sales-accepted pipeline by play": "Play별 Sales Accepted Pipeline", 
+  "Scale decision": "Scale 결정" 
   };
   const TITLE = { en: document.title, ko: 'Kim Sungmee — B2B 마케팅 리더 · 한국·APAC' };
   const metaDesc = document.querySelector('meta[name="description"]');
@@ -3637,7 +3874,7 @@ document.querySelectorAll('[data-yt]').forEach(el => { const d = THUMBS[el.datas
   const EN_KEEP = '.hero-headline, .sec-head h2:not(.ml), .case-title, .closing-quote .punch, .about-title, .lt-word, .stage-lead, .rail a, .mobile-drawer a, .nav-current, .nav-contact, .en-label';
   const norm = s => s.replace(/\u2060/g, '').replace(/\s+/g, ' ').trim();
   // Same English, different Korean by location (checked before the main dictionary)
-  const CTX = [['.pb-name', { 'Execution': 'Execution' }], ['.tl-aside-label', { 'Next': 'Next' }]];
+  const CTX = [['.pb-name', { 'Execution': 'Execution' }], ['.tl-aside-label', { 'Next': 'Next' }], ['.rm-flow, .rm-end', { 'Pipeline': 'Pipeline' }]];
 
   /* Line breaks: keep "account-based", "2022–2025", "MQL/SQL", "영업·인사이드" whole (invisible word joiner),
      and tie the last two words of each text block so no line ends with a single word. Same glyphs, same text. */
