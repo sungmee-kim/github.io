@@ -479,7 +479,9 @@
   .award-name { font-size: 13.5px; font-weight: 700; color: var(--white); line-height: 1.4; margin-bottom: 10px; }
   .award-org { margin-top: auto; font-size: 11px; color: var(--text-dim); letter-spacing: 0.04em; }
   .award-org b { color: var(--gold); font-weight: 600; font-family: var(--font-mono); margin-left: 6px; }
-  .numbers-note { margin-top: 18px; font-size: 13px; color: var(--text-dim); line-height: 1.7; font-style: italic; max-width: 760px; }
+  .numbers-note { margin-top: 14px; font-size: 13px; color: var(--text-dim); line-height: 1.7; font-style: italic; max-width: 760px; }
+  .numbers-note + .awards { margin-top: 40px; }                       /* note belongs to the KPIs; awards start a new block */
+  html[lang="ko"] .numbers-note { font-style: normal; }               /* Hangul has no true italic: Korean note stays upright */
 
   /* ── EXPERIENCE / HOW I WORK ── */
   #how { background: var(--navy); }
@@ -1489,7 +1491,7 @@ Field Execution → Regional Pipeline Strategy</p>
           <span class="tl-period">2007–2011</span>
           <span class="tl-company">Dassault Systèmes</span>
           <span class="tl-stage">Enterprise B2B</span>
-          <span class="tl-one">Field marketing for enterprise software customers in Korea.</span>
+          <span class="tl-one">Field marketing for 3D design &amp; PLM software in Korea.</span>
           <span class="plus tl-plus" aria-hidden="true"></span>
         </span>
       </button>
@@ -1522,7 +1524,7 @@ Field Execution → Regional Pipeline Strategy</p>
       </button>
       <button class="tl-node" role="tab" id="tab-ai" aria-controls="panel-ai" aria-selected="false" tabindex="-1">
         <span class="tl-card">
-          <span class="tl-period">Now</span>
+          <span class="tl-period">Next Layer</span>
           <span class="tl-company">AI-enabled GTM</span>
           <span class="tl-stage">Expansion</span>
           <span class="tl-one">AI-powered extension of 20+ years in B2B marketing.</span>
@@ -1534,7 +1536,7 @@ Field Execution → Regional Pipeline Strategy</p>
     <div class="tl-panel" role="tabpanel" id="panel-ezwel" aria-labelledby="tab-ezwel" tabindex="0" hidden>
       <div>
         <h3>Ezwelfare</h3>
-        <div class="tl-role">Marketing Specialist | Strategic Planning &amp; Digital Marketing · 2005–2006</div>
+        <div class="tl-role">Marketing Specialist | Strategic Planning &amp; Digital Marketing</div>
         <p class="ml tl-desc">Employee-benefits content strategy · promotions · customer service · pilot campaigns
 End-to-end ownership from planning to execution and results</p>
         <p class="tl-lesson">Execution ownership and performance management, built where no playbook existed</p>
@@ -1546,7 +1548,7 @@ End-to-end ownership from planning to execution and results</p>
     <div class="tl-panel" role="tabpanel" id="panel-dassault" aria-labelledby="tab-dassault" tabindex="0" hidden>
       <div>
         <h3>Dassault Systèmes</h3>
-        <div class="tl-role">Marketing Specialist | Field Marketing · 2007–2011</div>
+        <div class="tl-role">Marketing Specialist | Field Marketing</div>
         <p class="ml tl-desc">3DS.com · email campaigns · events/seminars
 1,000+ user conference · partner workshops · CXO roundtables</p>
         <p class="tl-lesson">Customer touchpoints built for the enterprise buying journey: education, proof and trust</p>
@@ -1557,7 +1559,7 @@ End-to-end ownership from planning to execution and results</p>
     <div class="tl-panel" role="tabpanel" id="panel-cisco" aria-labelledby="tab-cisco" tabindex="0" hidden>
       <div>
         <h3>Cisco</h3>
-        <div class="tl-role">Marketing Manager | Commercial, Partner &amp; SMB Field Marketing · 2011–2013</div>
+        <div class="tl-role">Marketing Manager | Commercial, Partner &amp; SMB Field Marketing</div>
         <p class="ml tl-desc">Distributor &amp; partner marketing strategy · MDF/Co-op management
 Budget, promotion and incentive tracking in SFDC/CRM
 MQL/SQL KPI-based demand generation and product launch programs</p>
@@ -1570,7 +1572,7 @@ MQL/SQL KPI-based demand generation and product launch programs</p>
     <div class="tl-panel" role="tabpanel" id="panel-schneider" aria-labelledby="tab-schneider" tabindex="0" hidden>
       <div>
         <h3>Schneider Electric</h3>
-        <div class="tl-role">Marketing Manager | Industry BU Field Marketing · 2014–2016</div>
+        <div class="tl-role">Marketing Manager | Industry BU Field Marketing</div>
         <p class="ml tl-desc">Industry BU marketing for Smart Factory solutions
 Company-wide lead for Smart Factory + Automation World 2016 · 5 business units</p>
         <p class="tl-lesson">Trade-show ROI built on inquiry capture → lead qualification → sales follow-up → measurement</p>
@@ -1582,7 +1584,7 @@ Company-wide lead for Smart Factory + Automation World 2016 · 5 business units<
     <div class="tl-panel" role="tabpanel" id="panel-zebra" aria-labelledby="tab-zebra" tabindex="0">
       <div>
         <h3>Zebra Technologies</h3>
-        <div class="ml tl-role">Marketing Advisor | Korea &amp; Philippines Field Marketing · 2017–Present
+        <div class="ml tl-role">Marketing Advisor | Korea &amp; Philippines Field Marketing
 Singapore APAC HQ, 15 months (Oct 2022 – Dec 2023)</div>
         <p class="ml tl-desc">Field marketing for Korea &amp; the Philippines
 Integrated demand generation, partner ecosystem and sales priorities
@@ -1633,6 +1635,8 @@ Revenue contribution tracked from first inquiry through MQL to closed-won</p>
       <div class="kpi secondary reveal" style="--d:.16s"><span class="kpi-num" data-count>6.8K</span><span class="kpi-label">Marketing-generated inquiries</span><span class="kpi-ctx">Across integrated field, digital, and channel programs</span></div>
     </div>
 
+    <p class="ml numbers-note">* Zebra Technologies Korea, 2021–2025. Business impact measured through marketing-sourced results and pipeline contribution, through to closed-won. 9.9× revenue reflects overall company revenue growth over the same period.</p>
+
     <div class="awards reveal">
       <div class="awards-head">Awards &amp; Recognition</div>
       <ul class="award-grid">
@@ -1643,7 +1647,6 @@ Revenue contribution tracked from first inquiry through MQL to closed-won</p>
       </ul>
     </div>
 
-    <p class="ml numbers-note">Zebra Technologies Korea, 2021–2025. Business impact measured through marketing-sourced results and pipeline contribution, through to closed-won. 9.9× revenue reflects overall company revenue growth over the same period.</p>
   </div>
 </section>
 
@@ -1690,7 +1693,7 @@ Revenue contribution tracked from first inquiry through MQL to closed-won</p>
         </div>
       </details>
       <details class="pb-card cap-item reveal" style="--d:.16s">
-        <summary><span><span class="cap-num">03</span><span class="pb-name">Account-Based Marketing</span><span class="pb-desc">Buying-group relevance over campaign volume.</span></span><span class="plus" aria-hidden="true"></span></summary>
+        <summary><span><span class="cap-num">03</span><span class="pb-name">Account-Based Marketing</span><span class="pb-desc">From account prioritization to buying-group engagement.</span></span><span class="plus" aria-hidden="true"></span></summary>
         <div class="pb-body">
           <div class="pb-row"><h4>What I execute</h4><ul><li>ABM programs</li><li>Account targeting</li><li>Account intelligence</li><li>Buying-group engagement</li><li>ABM content (APAC case study e-books)</li></ul></div>
           <div class="pb-row"><h4>Proof point</h4><p class="cap-proof">10+ personas mapped per account</p></div>
@@ -1722,17 +1725,63 @@ Revenue contribution tracked from first inquiry through MQL to closed-won</p>
       </details>
     </div>
   
-    <div class="layer-nav"><span></span><button type="button" class="ln-next" data-go="playbook">Next: <b>Why</b> — The Principles I Work By <span aria-hidden="true">→</span></button></div>
+    <div class="layer-nav"><span></span><button type="button" class="ln-next" data-go="how">Next: <b>How</b> — The System I Build <span aria-hidden="true">→</span></button></div>
   </div>
   </section>
     </div>
-    <div class="layer" data-ch="playbook" style="--li:1">
+    <div class="layer" data-ch="how" style="--li:1">
+      <button type="button" class="layer-tab" id="tab-how" aria-expanded="false" aria-controls="how">
+        <span class="lt-num">02</span><span class="lt-word">How</span><span class="lt-role">The System I Build</span><span class="lt-plus" aria-hidden="true"></span>
+      </button>
+  <section role="region" id="how" class="chapter layer-panel" aria-label="Operating Model">
+  <div class="container">
+    <div class="ch-label"><span>02 · How</span>The System I Build</div>
+    <div class="sec-head">
+      <div class="eyebrow">Operating Model</div>
+      <p class="ml">Demand generation run as one operating discipline: account priorities, campaigns, sales follow-up and pipeline measurement planned together.</p>
+    </div>
+    <div class="loop" aria-label="Operating loop">
+      <div class="loop-step"><span class="loop-dot" style="background:var(--teal)">P</span><div><strong>Plan</strong><span>Account priority, pipeline goals, campaign architecture</span></div></div>
+      <div class="loop-step"><span class="loop-dot" style="background:rgba(0,194,168,.65)">E</span><div><strong>Execute</strong><span>Multi-channel programs coordinated with Sales</span></div></div>
+      <div class="loop-step"><span class="loop-dot" style="background:rgba(0,194,168,.45)">M</span><div><strong>Measure</strong><span>Pipeline, conversion and ROI in Salesforce and Power BI</span></div></div>
+      <div class="loop-step"><span class="loop-dot" style="background:rgba(0,194,168,.25);color:var(--white)">I</span><div><strong>Improve</strong><span>Program changes based on conversion data</span></div></div>
+    </div>
+    <div class="how-cols">
+      <div class="how-col">
+        <div class="how-num">01</div>
+        <div class="how-word">Pipeline-Centric</div>
+        <div class="how-title">Plan every program with pipeline logic.</div>
+        <p class="ml how-body">Clear account priority, conversion expectation, and commercial visibility before a single campaign launches. Quarterly and annual planning tied to pipeline contribution.</p>
+      </div>
+      <div class="how-col">
+        <div class="how-num">02</div>
+        <div class="how-word">Revenue-First</div>
+        <div class="how-title">Translate investment into qualified outcomes.</div>
+        <p class="ml how-body">Digital · event · ABM · social · content · lead generation
+Integrated programs against shared pipeline targets</p>
+      </div>
+      <div class="how-col">
+        <div class="how-num">03</div>
+        <div class="how-word">Full-funnel ownership.</div>
+        <div class="how-title">Manage the journey from signal to expansion.</div>
+        <p class="ml how-body">Awareness through nurturing, opportunity creation, pipeline influence, and account expansion — with follow-up discipline and conversion tracking at every stage.</p>
+      </div>
+    </div>
+    <button type="button" class="ch-more-btn" aria-expanded="false" aria-controls="more-how">View details</button>
+    <div class="ch-more" id="more-how" hidden>
+    <p class="how-summary">Every program is planned, run and reviewed against its pipeline contribution.</p>
+    </div>
+    <div class="layer-nav"><button type="button" class="ln-prev" data-go="capabilities"><span aria-hidden="true">←</span> What</button><button type="button" class="ln-next" data-go="playbook">Next: <b>Why</b> — The Principles I Work By <span aria-hidden="true">→</span></button></div>
+  </div>
+  </section>
+    </div>
+    <div class="layer" data-ch="playbook" style="--li:2">
       <button type="button" class="layer-tab" id="tab-playbook" aria-expanded="false" aria-controls="playbook">
-        <span class="lt-num">02</span><span class="lt-word">Why</span><span class="lt-role">The Principles I Work By</span><span class="lt-plus" aria-hidden="true"></span>
+        <span class="lt-num">03</span><span class="lt-word">Why</span><span class="lt-role">The Principles I Work By</span><span class="lt-plus" aria-hidden="true"></span>
       </button>
   <section role="region" id="playbook" class="chapter layer-panel" aria-labelledby="bestpractices">
   <div class="container">
-    <div class="ch-label"><span>02 · Why</span>The Principles I Work By</div>
+    <div class="ch-label"><span>03 · Why</span>The Principles I Work By</div>
     <div class="sub-label" id="bestpractices">The Marketing Playbook</div>
     <p class="pb-intro">Six lenses behind the results — one connected system: engaging the customer, reading the market, prioritizing the account, activating the ecosystem, executing the strategy, and building the system that lets what works repeat and expand.</p>
     <div class="pb-grid">
@@ -1792,53 +1841,7 @@ Inquiry capture → sales handoff → pipeline tracking → next-year follow-thr
         </div>
       </details>
     </div>
-    <div class="layer-nav"><button type="button" class="ln-prev" data-go="capabilities"><span aria-hidden="true">←</span> What</button><button type="button" class="ln-next" data-go="how">Next: <b>How</b> — The System I Build <span aria-hidden="true">→</span></button></div>
-  </div>
-  </section>
-    </div>
-    <div class="layer" data-ch="how" style="--li:2">
-      <button type="button" class="layer-tab" id="tab-how" aria-expanded="false" aria-controls="how">
-        <span class="lt-num">03</span><span class="lt-word">How</span><span class="lt-role">The System I Build</span><span class="lt-plus" aria-hidden="true"></span>
-      </button>
-  <section role="region" id="how" class="chapter layer-panel" aria-label="Operating Model">
-  <div class="container">
-    <div class="ch-label"><span>03 · How</span>The System I Build</div>
-    <div class="sec-head">
-      <div class="eyebrow">Operating Model</div>
-      <p class="ml">Demand generation run as one operating discipline: account priorities, campaigns, sales follow-up and pipeline measurement planned together.</p>
-    </div>
-    <div class="loop" aria-label="Operating loop">
-      <div class="loop-step"><span class="loop-dot" style="background:var(--teal)">P</span><div><strong>Plan</strong><span>Account priority, pipeline goals, campaign architecture</span></div></div>
-      <div class="loop-step"><span class="loop-dot" style="background:rgba(0,194,168,.65)">E</span><div><strong>Execute</strong><span>Multi-channel programs coordinated with Sales</span></div></div>
-      <div class="loop-step"><span class="loop-dot" style="background:rgba(0,194,168,.45)">M</span><div><strong>Measure</strong><span>Pipeline, conversion and ROI in Salesforce and Power BI</span></div></div>
-      <div class="loop-step"><span class="loop-dot" style="background:rgba(0,194,168,.25);color:var(--white)">I</span><div><strong>Improve</strong><span>Program changes based on conversion data</span></div></div>
-    </div>
-    <div class="how-cols">
-      <div class="how-col">
-        <div class="how-num">01</div>
-        <div class="how-word">Pipeline-Centric</div>
-        <div class="how-title">Plan every program with pipeline logic.</div>
-        <p class="ml how-body">Clear account priority, conversion expectation, and commercial visibility before a single campaign launches. Quarterly and annual planning tied to pipeline contribution.</p>
-      </div>
-      <div class="how-col">
-        <div class="how-num">02</div>
-        <div class="how-word">Revenue-First</div>
-        <div class="how-title">Translate investment into qualified outcomes.</div>
-        <p class="ml how-body">Digital · event · ABM · social · content · lead generation
-Integrated programs against shared pipeline targets</p>
-      </div>
-      <div class="how-col">
-        <div class="how-num">03</div>
-        <div class="how-word">Full-funnel ownership.</div>
-        <div class="how-title">Manage the journey from signal to expansion.</div>
-        <p class="ml how-body">Awareness through nurturing, opportunity creation, pipeline influence, and account expansion — with follow-up discipline and conversion tracking at every stage.</p>
-      </div>
-    </div>
-    <button type="button" class="ch-more-btn" aria-expanded="false" aria-controls="more-how">View details</button>
-    <div class="ch-more" id="more-how" hidden>
-    <p class="how-summary">Every program is planned, run and reviewed against its pipeline contribution.</p>
-    </div>
-    <div class="layer-nav"><button type="button" class="ln-prev" data-go="playbook"><span aria-hidden="true">←</span> Why</button><button type="button" class="ln-next" data-go="lab">Next: <b>Next</b> — The Growth I Scale <span aria-hidden="true">→</span></button></div>
+    <div class="layer-nav"><button type="button" class="ln-prev" data-go="how"><span aria-hidden="true">←</span> How</button><button type="button" class="ln-next" data-go="lab">Next: <b>Next</b> — The Growth I Scale <span aria-hidden="true">→</span></button></div>
   </div>
   </section>
     </div>
@@ -1908,7 +1911,7 @@ Content and engagement personalized by buying-committee role</p></div>
     <p class="lab-note">The tools are new. The discipline is not.</p>
     </div>
   
-    <div class="layer-nav"><button type="button" class="ln-prev" data-go="how"><span aria-hidden="true">←</span> How</button><a class="ch-cta" href="#cases">See these principles in action <span aria-hidden="true">→</span> Success Cases</a></div>
+    <div class="layer-nav"><button type="button" class="ln-prev" data-go="playbook"><span aria-hidden="true">←</span> Why</button><a class="ch-cta" href="#cases">See the results <span aria-hidden="true">→</span> Success Cases</a></div>
   </div>
   </section>
     </div>
@@ -1966,7 +1969,7 @@ Content and engagement personalized by buying-committee role</p></div>
         <div class="case-body">
           <div class="case-tag">Case 02 · Account-Based Growth</div>
           <h3 class="case-title">ABM Penetration — Strategic Manufacturing Accounts</h3>
-          <p class="case-line">Buying-group relevance over campaign volume.</p>
+          <p class="case-line">Industry-based target account selection and tailored engagement for each customer.</p>
           <div class="case-metrics">
             <div class="case-m"><span class="case-m-val">100%</span><span class="case-m-lab">Sales alignment</span></div>
             <div class="case-m"><span class="case-m-val">10+</span><span class="case-m-lab">Personas per account</span></div>
@@ -1981,7 +1984,7 @@ Content and engagement personalized by buying-committee role</p></div>
             <div class="case-m"><span class="case-m-val">360°</span><span class="case-m-lab">Account view achieved</span></div>
           </div>
           <div class="cm-steps">
-            <div class="cm-step"><h4>Challenge</h4><h5>From campaign volume to account relevance</h5><p class="ml">Focus resources on high-value manufacturing accounts with the strongest fit, urgency, and expansion potential — moving from campaign volume to account relevance as the operating discipline.</p></div>
+            <div class="cm-step"><h4>Challenge</h4><h5>Concentrating resources on high-value accounts</h5><p class="ml">Prioritized high-value manufacturing accounts by fit, urgency and expansion potential — making account relevance the operating discipline.</p></div>
             <div class="cm-step"><h4>Strategy</h4><h5>Persona-level buying committee engagement</h5><p class="ml">Moved beyond single contacts by tailoring messages to operational, technical, financial, and executive stakeholders — mapping each account's buying group before any engagement launched.</p></div>
             <div class="cm-step"><h4>Execution</h4><h5>High-touch executive programs</h5><p class="ml">Used roundtables, executive sessions, and sales-aligned engagement to create trust and accelerate opportunity progress.</p></div>
             <div class="cm-step result"><h4>Result</h4><h5>Award-recognized pipeline contribution</h5><p class="ml">100% sales alignment, 10+ personas mapped per account, and a 360° account view — with every target account engaged jointly by Sales and Marketing.</p></div>
@@ -2410,7 +2413,7 @@ document.querySelectorAll('[data-yt]').forEach(el => { const d = THUMBS[el.datas
   $$('main > section[id]').forEach(s => secIO.observe(s));
 
   /* ── How I Work stack: desktop = one chapter open inside the stack (WHAT by default); mobile = tap to expand ── */
-  const LAY = ['capabilities', 'playbook', 'how', 'lab'];
+  const LAY = ['capabilities', 'how', 'playbook', 'lab'];
   const layEls = $$('#hiwStack .layer'), mqStack = window.matchMedia('(max-width: 900px)');
   let layOpen = null;
   function layRender() {
@@ -2972,7 +2975,7 @@ document.querySelectorAll('[data-yt]').forEach(el => { const d = THUMBS[el.datas
   "In the Field": "현장 스토리", 
   "About Me": "About Me", 
   "B2B Marketing Leader": "B2B 마케팅 리더", 
-  "20+ years of B2B technology marketing at Dassault Systèmes, Cisco, Schneider Electric and Zebra — demand generation, ABM, partner programs and field marketing across Korea and APAC.": "Dassault Systèmes, Cisco, Schneider Electric, Zebra Technologies에서\nB2B 테크놀로지 마케팅을 담당해왔습니다.\n한국·APAC 마켓에서 Demand Generation, ABM, Channel & Partner Marketing,\n필드마케팅을 중심으로 성장 전략과 실행을 이끌어왔습니다.", 
+  "20+ years of B2B technology marketing at Dassault Systèmes, Cisco, Schneider Electric and Zebra — demand generation, ABM, partner programs and field marketing across Korea and APAC.": "Dassault Systèmes, Cisco, Schneider Electric, Zebra Technologies에서\nB2B 테크놀로지 마케팅을 담당해왔습니다.\n한국·APAC 마켓에서 Demand Generation, ABM, Channel & Partner Marketing,\n필드마케팅을 통해 성장 전략과 실행을 연결합니다.", 
   "20+ Years": "20년 경력", 
   "Korea": "한국", 
   "Revenue": "매출", 
@@ -3000,7 +3003,7 @@ document.querySelectorAll('[data-yt]').forEach(el => { const d = THUMBS[el.datas
   "Marketing Specialist — Strategic Planning & Digital Marketing · 2005": "마케팅 스페셜리스트 — 전략기획·디지털 마케팅 · 2005", 
   "Content planning, promotion, customer service, and early growth execution in a lean startup environment — full ownership from day one.": "작은 스타트업에서 콘텐츠 기획, 프로모션, 고객 서비스, 초기 성장 전략 실행을 맡았습니다. 첫날부터 결과까지 직접 책임졌습니다.", 
   "Ownership and commercial accountability start before there is a playbook.": "오너십과 성과에 대한 책임은 플레이북이 생기기 전부터 시작됩니다.", 
-  "Stage 01": "1단계", 
+  "Stage 01": "Stage 01", 
   "Startup Marketing": "스타트업 마케팅", 
   "Foundation": "기반", 
   "end-to-end ownership — content, campaigns and the sales numbers behind them.": "마케팅 기획 → 콘텐츠·캠페인 → 매출 성과까지 전 과정 담당", 
@@ -3014,7 +3017,7 @@ document.querySelectorAll('[data-yt]').forEach(el => { const d = THUMBS[el.datas
   "Marketing Specialist — Korea Field Marketing · 2007": "마케팅 스페셜리스트 — 한국 Field Marketing · 2007", 
   "Managed 3DS.com, email campaigns and e-seminars, and supported customer and partner events — including a 1,000+ attendee user conference, partner workshops and CXO roundtables.": "3DS.com, 이메일 캠페인, 온라인 세미나를 운영하고 고객·파트너 행사를 지원했습니다. 1,000명 이상이 참석한 사용자 컨퍼런스와 파트너 워크숍, CXO 라운드테이블도 함께 진행했습니다.", 
   "Enterprise buyers need education, proof and trust before they respond to a campaign.": "엔터프라이즈 고객은 캠페인에 반응하기 전에 먼저 배우고, 확인하고, 신뢰할 수 있어야 합니다.", 
-  "Stage 02": "2단계", 
+  "Stage 02": "Stage 02", 
   "Expansion": "확장 영역", 
   "enterprise buyer engagement through seminars, conferences and executive roundtables.": "세미나, 컨퍼런스, 경영진 라운드테이블로 엔터프라이즈 고객 접점 확대", 
   "Website": "웹사이트", 
@@ -3025,7 +3028,7 @@ document.querySelectorAll('[data-yt]').forEach(el => { const d = THUMBS[el.datas
   "Marketing Manager, Commercial & Partner & SMB · 2011": "마케팅 매니저 — 커머셜·파트너·SMB · 2011", 
   "Distributor and partner marketing plans, MDF/Co-op allocation, promotions and partner incentives tracked in SFDC/PRM — plus a demand generation framework built on MQL/SQL KPIs and product launch programs.": "총판·파트너 마케팅 계획을 세우고, MDF/Co-op 예산 배분과 프로모션, 파트너 인센티브를 SFDC/PRM에서 관리했습니다. MQL/SQL KPI 기반의 Demand Generation 체계와 신제품 출시 프로그램도 구축했습니다.", 
   "Partner ecosystems multiply marketing reach when structured correctly.": "파트너 에코시스템은 구조를 제대로 갖출 때 마케팅의 도달 범위를 몇 배로 넓힙니다.", 
-  "Stage 03": "3단계", 
+  "Stage 03": "Stage 03", 
   "Commercial, SMB & Partner Marketing": "커머셜·SMB 및 파트너 마케팅", 
   "growth through partners, and a funnel measured on MQL/SQL.": "파트너 기반 성장 모델 · MQL/SQL 중심 퍼널 관리", 
   "Commercial Marketing": "커머셜 마케팅", 
@@ -3037,7 +3040,7 @@ document.querySelectorAll('[data-yt]').forEach(el => { const d = THUMBS[el.datas
   "Industry BU marketing for smart factory solutions, highlighted by Smart Factory + Automation World 2016 — led company-wide as the event owner, in collaboration with multiple business units.": "스마트 팩토리 솔루션 중심의 Industry BU 마케팅을 맡았습니다. 대표 프로젝트인 Smart Factory + Automation World 2016은 행사 총괄 책임자로서 여러 사업부와 함께 전사 차원에서 이끌었습니다.", 
   "A trade show earns its budget when every inquiry is captured, qualified and followed up by sales.": "전시회 예산은 모든 문의를 확보하고 선별해 영업이 후속 대응까지 마쳤을 때 제값을 합니다.", 
   "870+ MQLs · $1M pipeline (2016)": "MQL 870건+ · 파이프라인 $1M (2016)", 
-  "Stage 04": "4단계", 
+  "Stage 04": "Stage 04", 
   "Industry Business Marketing": "산업 자동화 및 제조 혁신 비즈니스 마케팅", 
   "business-unit marketing and large-scale industry events.": "사업부 마케팅과 대규모 산업 전시회", 
   "Industry BU Marketing": "Industry BU 마케팅", 
@@ -3049,7 +3052,7 @@ document.querySelectorAll('[data-yt]').forEach(el => { const d = THUMBS[el.datas
   "Revenue marketer with One Marketing ownership for Korea and the Philippines — connecting demand generation, the partner ecosystem and sales priorities, and leading regional projects in collaboration with the APAC team in Singapore. Built the demand generation playbook and owned pipeline accountability while revenue grew 9.9× over five years (2021–2025).": "Revenue Marketer로서 한국과 필리핀의 One Marketing을 총괄했습니다. Demand Generation, 파트너 에코시스템, 영업 우선순위를 하나로 연결하고, 싱가포르 APAC 팀과 함께 지역 프로젝트를 이끌었습니다. Demand Generation 플레이북을 만들고 파이프라인을 책임지는 동안, 매출은 5년(2021–2025) 사이 9.9배 성장했습니다.", 
   "A solo regional role builds every capability simultaneously — strategy, execution, measurement, and commercial ownership.": "지역을 혼자 맡으면 전략, 실행, 측정, 매출 책임까지 모든 역량을 한꺼번에 키우게 됩니다.", 
   "View the Automation World case (2022–2025)": "Automation World 사례 보기 (2022–2025)", 
-  "Stage 05": "5단계", 
+  "Stage 05": "Stage 05", 
   "pipeline ownership across two markets, and regional project collaboration.": "한국·필리핀 2개 마켓 파이프라인 및 APAC 지역 프로젝트 참여·협업", 
   "Marketing Automation": "마케팅 자동화", 
   "Pipeline": "파이프라인", 
@@ -3089,7 +3092,7 @@ document.querySelectorAll('[data-yt]').forEach(el => { const d = THUMBS[el.datas
   "Across integrated field, digital, and channel programs": "필드·디지털·채널 통합 프로그램으로 창출한 전체 문의", 
   "Recognition": "수상", 
   "Zebra Technologies Korea, 2021–2025. Closed-won revenue, deals, conversion and inquiries are marketing direct-sourced; 9.9× is overall revenue scale over the same period. Pipeline was created by marketing and closed together with sales and cross-functional partners.": "Zebra Technologies Korea, 2021–2025년 기준입니다. Closed-won 매출, 딜, 전환율, 문의는 마케팅이 직접 발굴한 성과이며, 9.9배는 같은 기간 전체 매출 성장 규모입니다. 파이프라인은 마케팅이 만들고, 영업 및 유관 부서와 함께 수주로 연결했습니다.", 
-  "The Principles I Work By": "일의 철학과 전략", 
+  "The Principles I Work By": "일의 철학과 원칙", 
   "Six lenses behind the results — one connected system: engaging the customer, reading the market, prioritizing the account, activating the ecosystem, executing the strategy, and building the system that lets what works repeat and expand.": "성과를 만드는 여섯 가지 관점, 하나로 연결된 시스템", 
   "Customer": "Customer", 
   "Customer-centric engagement": "고객 참여 및 관계 형성", 
@@ -3272,7 +3275,6 @@ document.querySelectorAll('[data-yt]').forEach(el => { const d = THUMBS[el.datas
   "Turn account insight into differentiated messaging for executive, operational, technical, financial, and partner stakeholders — adapting content and engagement to each role in the buying committee at scale.": "어카운트 인사이트를 경영진, 운영, 기술, 재무, 파트너 등 이해관계자별 메시지로 구체화합니다. Buying Committee 안의 역할마다 콘텐츠와 접근 방식을 대규모로 맞춤화합니다.", 
   "Guide sales next-best actions": "Sales Next Best Action 제시", 
   "Connect marketing intelligence to sales timing, follow-up priority, and opportunity context — so each marketing signal leads to a defined sales follow-up.": "Marketing Intelligence와 Sales Timing · Follow-up Priority · Opportunity Context 연계\n마케팅 Signal별 명확한 Sales Action 정의", 
-  "See these principles in action": "원칙을 적용한 결과", 
   "Selected Success Cases": "주요 성공 사례", 
   "Four programs, each started from a specific business problem and measured in pipeline.": "비즈니스 과제 정의부터 파이프라인 성과 검증까지\n4개 핵심 프로그램 및 실행 사례", 
   "Case 01 · Vertical GTM · 2022–2025": "사례 01 · 버티컬 GTM · 2022–2025", 
@@ -3444,7 +3446,6 @@ document.querySelectorAll('[data-yt]').forEach(el => { const d = THUMBS[el.datas
   "From Zero to Execution, End-to-End Ownership": "초기 조직의 End-to-End 마케팅 오너십", 
   "Dassault Systèmes": "Dassault Systèmes", 
   "Enterprise B2B": "엔터프라이즈 B2B", 
-  "Field marketing for enterprise software customers in Korea.": "국내 엔터프라이즈 소프트웨어 고객 대상 필드마케팅", 
   "Cisco": "Cisco", 
   "Partner-led Commercial & SMB marketing.": "파트너 기반 커머셜·SMB 마케팅", 
   "Schneider Electric": "Schneider Electric", 
@@ -3490,9 +3491,8 @@ document.querySelectorAll('[data-yt]').forEach(el => { const d = THUMBS[el.datas
   "What Marketing Contributed to Revenue": "What Marketing Contributed to Revenue", 
   "Measured on marketing KPIs Revenue contribution tracked from first inquiry through MQL to closed-won": "Marketing KPI 기반 성과 측정\n첫 문의 유입부터 MQL, 수주까지 마케팅의 매출 기여도 추적·검증", 
   "Awards & Recognition": "수상 및 업계 인정", 
-  "Zebra Technologies Korea, 2021–2025. Business impact measured through marketing-sourced results and pipeline contribution, through to closed-won. 9.9× revenue reflects overall company revenue growth over the same period.": "Zebra Technologies Korea, 2021–2025년 기준입니다. 마케팅 소싱 성과와 파이프라인 기여를 중심으로 Closed-won까지의 비즈니스 임팩트를 측정했습니다. 매출 9.9배는 동일 기간 회사 전체 매출 성장 규모입니다.", 
   "Marketing should not support revenue. Marketing should create it.": "Marketing should not support revenue. Marketing should create it.", 
-  "The Marketing Playbook": "마케팅 전략 및 실행 프레임워크", 
+  "The Marketing Playbook": "마케팅 플레이북", 
   "Both persona-mapped buying committees and the APAC partner incentive program started from this customer-engagement view.": "고객 참여 및 관계 형성 관점에서 출발 — 페르소나별 구매 의사결정 그룹 매핑과 APAC 파트너 인센티브 프로그램 설계", 
   "At Zebra, built a four-year vertical GTM platform in industrial automation (2022–2026) from a single reframed field event — one narrative, one pipeline model, and one measurement standard where none existed before. Earlier, at Schneider Electric, led Smart Factory + Automation World 2016 company-wide across business units.": "Automation World를 산업 자동화 분야의 4개년(2022–2026) Vertical GTM 플랫폼으로 전환\n공통 메시지 · 파이프라인 모델 · 성과 측정 체계 구축\nSmart Factory + Automation World 2016 전사 프로젝트 리드", 
   "Standardized annual operating model Inquiry capture → sales handoff → pipeline tracking → next-year follow-through": "연례 운영 모델 표준화\n문의 확보 → Sales Handoff → Pipeline Tracking → 차년도 후속 연계", 
@@ -3501,7 +3501,7 @@ document.querySelectorAll('[data-yt]').forEach(el => { const d = THUMBS[el.datas
   "Pipeline-Centric": "Pipeline-Centric", 
   "Revenue-First": "Revenue-First", 
   "Digital · event · ABM · social · content · lead generation Integrated programs against shared pipeline targets": "Digital · Event · ABM · Social · Content · Lead Generation\n공통 파이프라인 목표 기반의 통합 프로그램 설계", 
-  "Marketing Capabilities": "마케팅 핵심 역량", 
+  "Marketing Capabilities": "B2B 마케팅 실행 영역", 
   "Field & Experiential Marketing": "Field & Experiential Marketing", 
   "▶ AW 2026": "▶ AW 2026", 
   "▶ DAMEX 2023": "▶ DAMEX 2023", 
@@ -3549,10 +3549,10 @@ document.querySelectorAll('[data-yt]').forEach(el => { const d = THUMBS[el.datas
   "New Product Launch Event · Zebra Technologies": "신제품 출시 행사 · Zebra Technologies", 
   "Year-end Partner Event · Zebra Technologies": "연말 파트너 행사 · Zebra Technologies", 
   "People, places and moments behind the work.": "People, places and moments behind the work.", 
-  "B2B marketing leader driving pipeline and revenue growth through field marketing, demand generation, ABM and channel & partner marketing — aligned with Sales.": "필드마케팅, Demand Generation, ABM, 채널·파트너 마케팅 전략을 기반으로 영업과 정렬하고, 파이프라인과 매출 성장을 견인하는 B2B 마케팅 리더입니다.", 
+  "B2B marketing leader driving pipeline and revenue growth through field marketing, demand generation, ABM and channel & partner marketing — aligned with Sales.": "필드마케팅, Demand Generation, ABM, Channel & Partner Marketing 전략을 기반으로 영업과 정렬하고, 파이프라인과 매출 성장을 견인하는 B2B 마케팅 리더입니다.", 
   "Kim Sungmee": "Kim Sungmee", 
   "Turning business questions into marketing plans — and plans into measurable pipeline.": "Turning business questions into marketing plans — and plans into measurable pipeline.", 
-  "My 20-year career began at a Korean startup and grew through global technology companies — Dassault Systèmes, Cisco, Schneider Electric and Zebra Technologies — across Demand Generation, ABM, Channel Marketing, Partner Marketing, Field Marketing and Regional Marketing. Most recently, I've led Korea and Philippines field marketing and collaborated on regional programs at Zebra's Singapore APAC HQ.": "국내 스타트업에서 시작해 Dassault Systèmes, Cisco, Schneider Electric, Zebra Technologies 등 글로벌 테크놀로지 기업에서 20년간 Demand Generation, ABM, Channel·Partner Marketing, 필드마케팅, 지역 마케팅을 담당해 왔습니다. 최근에는 한국·필리핀 필드마케팅과 함께 Zebra 싱가포르 APAC 본사에서 15개월간 근무하며 APAC 지역 프로젝트에 참여했습니다.", 
+  "My 20-year career began at a Korean startup and grew through global technology companies — Dassault Systèmes, Cisco, Schneider Electric and Zebra Technologies — across Demand Generation, ABM, Channel Marketing, Partner Marketing, Field Marketing and Regional Marketing. Most recently, I've led Korea and Philippines field marketing and collaborated on regional programs at Zebra's Singapore APAC HQ.": "국내 스타트업에서 시작해 Dassault Systèmes, Cisco, Schneider Electric, Zebra Technologies 등 글로벌 테크놀로지 기업에서 20년간 Demand Generation, ABM, Channel & Partner Marketing, 필드마케팅, 지역 마케팅을 담당해 왔습니다. 최근에는 한국·필리핀 필드마케팅과 함께 Zebra 싱가포르 APAC 본사에서 15개월간 근무하며 APAC 지역 프로젝트에 참여했습니다.", 
   "My strength is connecting strategy and execution: define the business problem → find the starting point → align stakeholders → standardize what works. I run every program as my own business, earning trust with Sales, regional teams and partners through clear communication and consistent results.": "전략과 실행을 잇는 것이 강점입니다. 비즈니스 문제 정의 → 시작점 설정 → 이해관계자 정렬 → 검증된 방식의 표준화. 모든 프로그램을 제 사업처럼 운영하며, 명확한 소통과 꾸준한 성과를 통해 영업·지역 팀·파트너의 신뢰를 쌓아 왔습니다.", 
   "LinkedIn": "LinkedIn", 
   "sm27600@naver.com": "sm27600@naver.com", 
@@ -3601,14 +3601,27 @@ document.querySelectorAll('[data-yt]').forEach(el => { const d = THUMBS[el.datas
   "Open photo: Hosting a session at a partner event": "사진 열기: 파트너 행사에서 세션 진행", 
   "Open photo: Dinner with regional colleagues": "사진 열기: 지역 동료들과의 저녁 식사", 
   "Open photo: With colleagues during a regional team trip": "사진 열기: 지역 팀 출장 중 동료들과 함께", 
-  "Uncovering market and customer opportunities — and turning them into pipeline and revenue growth through strategic execution and cross-functional collaboration.": "마켓과 고객의 기회를 발굴하고, 전략적 실행과\n조직\u00a0간\u00a0협업을 통해 파이프라인과 매출 성장을 견인합니다.", 
+  "Uncovering market and customer opportunities — and turning them into pipeline and revenue growth through strategic execution and cross-functional collaboration.": "마켓과 고객의 기회를 발굴하고, 전략적 실행과\n조직 간 협업을 통해 파이프라인과 매출 성장을 견인합니다.", 
   "Personalized content → concierge telemarketing nurturing → meeting generation → account-specific seminars": "맞춤형 콘텐츠 제작 → 컨시어지 텔레마케팅 너처링 → 미팅 어레인지 → 어카운트별 맞춤형 세미나 기획·운영", 
-  "— The Principles I Work By": "— 일의 철학과 전략", 
+  "— The Principles I Work By": "— 일의 철학과 원칙", 
   "2017–Present": "2017–현재", 
   "Zebra Technologies · 2017–Present": "Zebra Technologies · 2017–현재", 
-  "Open to conversations on global B2B marketing strategy, Regional GTM, ABM, and Channel & Partner Marketing —": "글로벌 B2B 마케팅 전략, Regional GTM, ABM 및 채널·파트너 마케팅에 대한 대화를 환영합니다.", 
+  "Open to conversations on global B2B marketing strategy, Regional GTM, ABM, and Channel & Partner Marketing —": "글로벌 B2B 마케팅 전략, Regional GTM, ABM 및 Channel & Partner Marketing에 대한 대화를 환영합니다.", 
   "let's connect.": "", 
-  "industrial automation & smart factory market strategy and execution.": "산업 자동화·스마트 팩토리 마켓 전략 및 마케팅 실행" 
+  "industrial automation & smart factory market strategy and execution.": "산업 자동화·스마트 팩토리 마켓 전략 및 마케팅 실행", 
+  "Marketing Specialist | Strategic Planning & Digital Marketing": "마케팅 스페셜리스트 | 전략기획·디지털 마케팅", 
+  "Marketing Specialist | Field Marketing": "마케팅 스페셜리스트 | 필드마케팅", 
+  "Marketing Manager | Commercial, Partner & SMB Field Marketing": "마케팅 매니저 | Commercial·Partner·SMB 필드마케팅", 
+  "Marketing Manager | Industry BU Field Marketing": "마케팅 매니저 | Industry BU 필드마케팅", 
+  "Marketing Advisor | Korea & Philippines Field Marketing Singapore APAC HQ, 15 months (Oct 2022 – Dec 2023)": "마케팅 어드바이저 | 한국·필리핀 필드마케팅\n싱가포르 APAC 본사 근무 15개월 (2022.10–2023.12)", 
+  "AI-enabled GTM · Next Layer": "AI 기반 GTM · Next Layer", 
+  "Industry-based target account selection and tailored engagement for each customer.": "타깃 산업별 어카운트 선정과 고객별 맞춤형 참여 전략", 
+  "From account prioritization to buying-group engagement.": "어카운트 우선순위부터 구매 의사결정 그룹 공략까지", 
+  "Concentrating resources on high-value accounts": "리소스를 고가치 어카운트에 집중", 
+  "Prioritized high-value manufacturing accounts by fit, urgency and expansion potential — making account relevance the operating discipline.": "고부가가치 제조업 핵심 어카운트 우선순위화\n적합도 · 긴급도 · 확장 가능성 기준 적용\n어카운트 적합도를 마케팅 운영 기준으로 정립", 
+  "See the results": "실제 성과 보기", 
+  "* Zebra Technologies Korea, 2021–2025. Business impact measured through marketing-sourced results and pipeline contribution, through to closed-won. 9.9× revenue reflects overall company revenue growth over the same period.": "※ Zebra Technologies Korea, 2021–2025년 기준입니다. 마케팅 소싱 성과와 파이프라인 기여를 중심으로 Closed-won까지의 비즈니스 임팩트를 측정했습니다. 매출 9.9배는 동일 기간 회사 전체 매출 성장 규모입니다.", 
+  "Field marketing for 3D design & PLM software in Korea.": "국내 3D 설계·PLM 소프트웨어 필드마케팅" 
   };
   const TITLE = { en: document.title, ko: 'Kim Sungmee — B2B 마케팅 리더 · 한국·APAC' };
   const metaDesc = document.querySelector('meta[name="description"]');
@@ -3624,7 +3637,7 @@ document.querySelectorAll('[data-yt]').forEach(el => { const d = THUMBS[el.datas
   const EN_KEEP = '.hero-headline, .sec-head h2:not(.ml), .case-title, .closing-quote .punch, .about-title, .lt-word, .stage-lead, .rail a, .mobile-drawer a, .nav-current, .nav-contact, .en-label';
   const norm = s => s.replace(/\u2060/g, '').replace(/\s+/g, ' ').trim();
   // Same English, different Korean by location (checked before the main dictionary)
-  const CTX = [['.pb-name', { 'Execution': 'Execution' }]];
+  const CTX = [['.pb-name', { 'Execution': 'Execution' }], ['.tl-aside-label', { 'Next': 'Next' }]];
 
   /* Line breaks: keep "account-based", "2022–2025", "MQL/SQL", "영업·인사이드" whole (invisible word joiner),
      and tie the last two words of each text block so no line ends with a single word. Same glyphs, same text. */
